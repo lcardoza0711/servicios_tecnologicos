@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="helpdesk_tickt_ficha" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.view</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"/>
+        <field name="arch" type="xml">
+            <field name="ocultar_equipos" invisible="1"/>
+
+            <xpath expr="//button[@name='crear_bitacora_servicio']" position="before" >
+                <button name="crear_entrega_producto" string="Crear ficha" type="object" class="btn btn-primary" attrs="{'invisible':[('ocultar_equipos','=',True)]}"/>
+            </xpath>
+            
+            <div class = "oe_button_box" name = "button_box" >
+                 <button class="oe_stat_button" name="ver_entrega_producto" type="object" icon="fa-pencil-square-o"  attrs="{'invisible':[('ocultar_equipos','=',True)]}"   >
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="cuenta_entrega_producto" nolabel="1"/>
+                        </span>
+                        <span class="o_stat_text">
+                            Ficha de recepcion
+                        </span>
+                    </div>                    
+                </button>
+            </div>
+        </field>
+    </record>
+</odoo>            

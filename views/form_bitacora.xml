@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_bitacora_servicio_2_tree" model="ir.ui.view">
+        <field name="name">bitacora.servicio.tree</field>
+        <field name="model">bitacora.servicio</field>
+
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="cliente" />
+                <field name="contrato" />
+                <field name="equipo" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_bitacora_servicio_2_form" model="ir.ui.view">
+        <field name="name">bitacora.servicio.form</field>
+        <field name="model">bitacora.servicio</field>
+
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+          <form>
+                <button name="action_launch_survey" string="Lanzar encuesta" type="object" class="oe_highlight"/>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                    <label for="plantilla"/>
+                    <field name="plantilla" style="margin-bottom: 50px;"/>
+
+                        <group class="oe_left" style="width: 50%;">
+                        <field name="cliente" attrs="{'invisible':[('ocultar','=', True)]}" style="width: 15vh;"/>
+                        <field name="cliente" string="Compañia" attrs="{'invisible':[('ocultar','=', False)]}" style="width: 15vh; "/>
+                        <field name="ocultar" invisible="1"/>
+                        <field name="fecha" style="width: 15vh;"/>
+                        <field name="ticket" style="width: 15vh;"/>
+                        </group>
+                         <group class="oe_right" style="width: 50%;">
+
+                        <field name="telefono_partneer"/>
+                        <field name="tecnico_responsable"/>
+                        </group>
+                    </group>
+
+                    <group attrs="{'invisible':[('ocultar','=', True)]}">
+                        <field name="contrato"/>
+                        <field name="equipo"/>
+                        <field name="descripcion_equipo"/>
+                        <field name="fecha_adquisicion"/>
+                        <field name="tecnico_responsable"/>
+                        <field name="responsable_cliente"/>
+                        <field name="solicitud_visita"/>
+
+                    </group>
+
+
+
+                    <group attrs="{'invisible':[('ocultar','=', False)]}">
+                        <group string="Línea del dispositivo" style="width: 80%; padding-bottom: 5.2vh;">
+                            <group class="oe_left">
+                                <field name="linea_op1"/>
+                                <field name="linea_op2"/>
+                                <field name="linea_op3"/>
+                            </group>
+                            <group class="oe_right">
+                            <field name="linea_op4"/>
+                            <field name="linea_op5"/>
+                            <field name="linea_op6"/>
+
+                            </group>
+
+                        </group>
+                        <label for="otra_linea_dis" string="Otro"/>
+                        <field string="Otra" name="otra_linea_dis"/>
+
+                          <label for="pregunta_1" style="padding-top: 5.2vh;"/>
+
+                        <field name="pregunta_1" attrs="{'invisible':[('ocultar','=', False)]}" style="padding-top: 5.2vh;"/>
+
+                        <group>
+                          <label for="lineas_dispositivos" string="Cantidad, descripción y modelos de los dispositivos" style="padding-top: 5.2vh;"/>
+                            <field name="lineas_dispositivos" widget="many2many" nolabel="1" style="width: 50vh;padding-top: 5.2vh;">
+                                <tree editable="top">
+                                    <field name="modelo"/>
+                                    <field name="descripcion_equipo"/>
+                                    <field name="cant_dispositivos"/>
+                                </tree>
+                            </field>
+                        </group>
+
+
+                         </group>
+
+
+
+                    <group string="Recepcion de equipo" attrs="{'invisible':[('ocultar','=', True)]}">
+                        <field name="fecha_recepcion"/>
+                        <field name="estado_recepcion"/>
+                    </group>
+
+                    <group string="Detalle de Inspección" attrs="{'invisible':[('ocultar','=', False)]}">
+                        <field name="fecha_inspeccion"/>
+                        <field name="estado_inspeccion"/>
+                    </group>
+
+                    <group string="Imagenes" attrs="{'invisible':[('ocultar','=', True)]}">
+                        <field name="img_antes1"/>
+                        <field name="img_antes2"/>
+                        <field name="img_antes3"/>
+                    </group>
+
+                    <field name="lineas_bitacora" domain="[('bitacora_id','=',id)]" context="{'default_bitacora_id':id}" attrs="{'invisible':[('ocultar','=', True)]}">
+                        <tree editable="bottom">
+                            <field name="seccion" invisible="1"/>
+                            <field name="name" attrs="{'readonly': [('seccion', '=', True)]}"/>
+                            <field name="completado" attrs="{'invisible': [('seccion', '=', True)]}"/>
+                            <field name="incidencia" attrs="{'invisible': [('seccion', '=', True)]}"/>
+                            <field name="comentarios" attrs="{'invisible': [('seccion', '=', True)]}"/>
+                            <field name="imagen" attrs="{'invisible': [('seccion', '=', True)]}"/>
+                        </tree>
+                    </field>
+                    <group string="Mantenimiento" attrs="{'invisible':[('ocultar','=', True)]}">
+                         <field name="fecha_mantenimiento"/>
+                        <field name="estado_mantenimiento"/>
+                    </group>
+
+                    <group attrs="{'invisible':[('ocultar','=', False)]}">
+                        <field name="trabajo_previo"/>
+                           <field name="detalle_trabajo_prev"/>
+                           <field name="servicio_terceros"/>
+                           <field name="grado_dificultad"/>
+
+                    </group>
+                    <group string="Imagenes" attrs="{'invisible':[('ocultar','=', True)]}">
+                        <field name="img_despues1"/>
+                        <field name="img_despues2"/>
+                        <field name="img_despues3"/>
+                    </group>
+
+                     <group string="Imagenes de inspección" attrs="{'invisible':[('ocultar','=', False)]}" style="width: 54vw;">
+                       <group class="oe_left">
+                        <field name="img_antes1" string="Imagen de inspección"/>
+                        <field name="img_antes2" string="Imagen de inspección"/>
+                        <field name="img_antes3" string="Imagen de inspección"/>
+                       </group>
+                         <group class="oe_right">
+                            <field name="img_despues1" string="Imagen de inspección"/>
+                            <field name="img_despues2" string="Imagen de inspección"/>
+                            <field name="img_despues3" string="Imagen de inspección"/>
+                         </group>
+
+                    </group>
+
+
+                    <group string="Tiempo de entrega" attrs="{'invisible':[('ocultar','=', False)]}" style="width: 54vw;">
+                      <field name="horas_disponibles"  widget="float_time"/>
+                      <field name="dias_posibles" />
+                    </group>
+                    <group string="Entrega" attrs="{'invisible':[('ocultar','=', True)]}">
+                         <field name="fecha_entrega"/>
+                        <field name="estado_entrega"/>
+                    </group>
+                    <group string="Notas">
+                        <field name="notas" nolabel="1" placeholder="Escribir notas" modifiers="{}"/>
+                    </group>
+
+                    <!-- Se agrega la firma que fue creado con odoo studio para pruebas -->
+                    <xpath expr="//field[@name='notas']" position="after">
+                        <field widget="signature" name="x_studio_firma_de_cliente" string="Firma de cliente"/>
+                    </xpath>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="paperformat_reporte_inspección" model="report.paperformat">
+        <field name="name">Formato de papel para Reporte de inspección</field>
+        <field name="default" eval="True"/>
+        <field name="format">Letter</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="header_spacing">30</field>
+        <field name="margin_top">30</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_reporte_inspeccion" model="ir.actions.report">
+        <field name="name">Reporte de inspección</field>
+        <field name="model">reporte.inspeccion</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">servicios_tecnologicos.reporte_reporte_inspeccion</field>
+        <field name="print_report_name">'Reporte de inspección - '+object.name+'.pdf'</field>
+        <field name="binding_model_id" ref="model_reporte_inspeccion"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="reporte_reporte_inspeccion">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page" style="font-size: 15px">
+                        <!--Datos de cabecera-->
+                        <h3 class="text-center">Reporte de inspección</h3>
+                        <div style="width: 375px; background:#093075;border-radius: 5px; padding:10px;margin-bottom:20px;">
+                            <span style="color:white;text-transform: uppercase" t-field="o.ticket"/>
+                        </div>
+                        <table class="table table-sm table-borderless" style="border:none !important">
+                            <tbody style="border:none !important">
+                                <tr>
+                                    <th style="width:350px">
+                                        <span>Cliente:</span>
+                                    </th>
+                                    <td style="background:white !important;border:none !important">
+                                        <div style="border: 1pt solid black;padding:5px;border-radius: 10px;">
+                                            <t t-if="o.cliente">
+                                                <span t-field="o.cliente"/>
+                                            </t>
+                                            <t t-else="">
+                                                -
+                                            </t>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="width:350px">
+                                        <span>Contacto:</span>
+                                    </th>
+                                    <td style="background:white !important;border:none !important">
+                                        <div style="border: 1pt solid black;padding:5px;border-radius: 10px;">
+                                            <span t-field="o.contacto"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="width:350px">
+                                        <span>Número de teléfono:</span>
+                                    </th>
+                                    <td style="background:white !important;border:none !important">
+                                        <div style="border: 1pt solid black;padding:5px;border-radius: 10px;">
+                                            <t t-if="o.telefono">
+                                                <span t-field="o.telefono"/>
+                                            </t>
+                                            <t t-else="">
+                                                -
+                                            </t>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="width:350px">
+                                        <span>Correo electrónico:</span>
+                                    </th>
+                                    <td style="background:white !important;border:none !important">
+                                        <div style="border: 1pt solid black;padding:5px;border-radius: 10px;">
+                                            <span t-field="o.email"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="width:350px">
+                                        <span>Técnico responsable:</span>
+                                    </th>
+                                    <td style="background:white !important;border:none !important">
+                                        <div style="border: 1pt solid black;padding:5px;border-radius: 10px;">
+                                            <t t-if="o.create_uid">
+                                                <span t-field="o.create_uid"/>
+                                            </t>
+                                            <t t-else="">
+                                                -
+                                            </t>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="width:350px">
+                                        <span>Fecha de Reporte</span>
+                                    </th>
+                                    <td style="background:white !important;border:none !important">
+                                        <div style="border: 1pt solid black;padding:5px;border-radius: 10px;">
+                                            <t t-if="o.create_date">
+                                                <span t-field="o.create_date"/>
+                                            </t>
+                                            <t t-else="">
+                                                -
+                                            </t>
+                                        </div>
+                                    </td>
+                                </tr>
+                               <tr>
+                                    <th style="width:350px">
+                                        <span>Líneas de producto:</span>
+                                    </th>
+                                    <td style="background:white !important;border:none !important">
+                                        <div style="border: 1pt solid black;padding:5px;border-radius: 10px;">
+                                            <span t-field="o.lineas_producto"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--Lista de productos-->
+                        <div style="width: 375px; background:#093075;border-radius: 5px; padding:10px; margin-bottom:20px; margin-top:20px">
+                            <span style="color:white;text-transform: uppercase">Lista de productos</span>
+                        </div>
+                         <!--Cuerpo de tabla de lista de productos-->
+                         <table class="table table-sm o_main_table" style="margin-top:20px;">
+                            <thead>
+                              <tr>  
+                                <th scope="col" style="width:150px">Producto</th>
+                                <th scope="col" style="width:130px">Cantidad</th>
+                               </tr> 
+                            </thead>
+                            <tbody class="sale_tbody">
+                                <t t-foreach="o.lista_producto" t-as="lista">
+                                    <tr>
+                                        <td style="border: 1pt solid black">
+                                            <span t-field="lista.producto"/>
+                                        </td>
+                                        <td style="border: 1pt solid black">
+                                            <span t-field="lista.cantidad"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <!--Materiales a utilizar-->
+                        <div style="width: 375px; background:#093075;border-radius: 5px; padding:10px; margin-bottom:20px; margin-top:20px">
+                            <span style="color:white;text-transform: uppercase">Materiales a utilizar</span>
+                        </div>
+                         <!--Cuerpo de tabla de lista de materiales a utilizar-->
+                         <table class="table table-sm o_main_table" style="margin-top:20px;">
+                            <thead>
+                                <th scope="col" style="width:150px">Descripción</th>
+                                <th scope="col" style="width:130px">Cantidad</th>
+                                <th scope="col" style="width:130px">Unidad de medida</th>
+                                <th scope="col" style="width:130px">observación adicional</th>
+                            </thead>
+                            <tbody class="sale_tbody">
+                                <t t-foreach="o.materiales" t-as="material">
+                                    <tr>
+                                        <td style="border: 1pt solid black">
+                                            <span t-field="material.descripcion"/>
+                                        </td>
+                                        <td style="border: 1pt solid black">
+                                            <span t-field="material.cantidad"/>
+                                        </td>
+                                        <td style="border: 1pt solid black">
+                                            <span t-field="material.unidad_de_medida"/>
+                                        </td>
+                                        <td style="border: 1pt solid black">
+                                            <span t-field="material.observacion"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <p style="page-break-before:always;"></p>                 
+                        
+                        <!--Notas y observaciones adcionales, horas y dias posibles-->
+                        <div style="width: 375px; background:#093075;border-radius: 5px; padding:10px; margin-bottom:20px; margin-top:20px">
+                            <span style="color:white;text-transform: uppercase">Observaciones y tiempo estimado</span>
+                        </div>
+                        <div style="margin-bottom:20px">
+                            <span>Notas de equipos adicionales</span>
+                            <span style="margin-left:122px;border: 1pt solid black;padding:5px;border-radius: 10px;"
+                                  t-field="o.equipos_adicionales"/>
+                        </div>
+
+                        <div style="margin-bottom:10px;margin-top:40px;" class="container">
+                            <div class="row">
+
+                                <div class="col-12">
+                                    <span>
+                                        <strong>Observaciones adicionales</strong>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 border border-dark rounded" style="padding:5px">
+
+                                <span style="margin-left:25px; font-size:14px" t-field="o.observaciones_adicionales"/>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div style="margin-bottom:20px">
+                            <span>Horas posibles de instalación</span>
+                            <span style="margin-left:122px;border: 1pt solid black;padding:5px;border-radius: 10px;"
+                                  t-field="o.horas_instalacion"/>
+                        </div>
+
+                        <div style="margin-bottom:20px">
+                            <span>Dias posibles de instalación</span>
+                            <span style="margin-left:122px;border: 1pt solid black;padding:5px;border-radius: 10px;"
+                                  t-field="o.dias_instalacion"/>
+                        </div>
+
+                        <!--Imágenes de estado de lo solicitado-->
+                        <span>
+                            <strong>Estado de lo solicitado:</strong>
+                        </span>
+                        <div style="margin-top:10px;margin-left:25px;text-align:center;">
+                            <div style="margin:0px auto;">
+                                <t t-if="o.img_estado1 != False">
+                                    <img style="height: 250px;width:250px;margin:10px"
+                                         t-attf-src="data:image/*;base64,{{o.img_estado1}}"/>
+                                </t>
+                                <t t-if="o.img_estado2 != False">
+                                    <img style="height: 250px;width:250px;margin:10px"
+                                         t-attf-src="data:image/*;base64,{{o.img_estado2}}"/>
+                                </t>
+                                <t t-if="o.img_estado3 != False">
+                                    <img style="height: 250px;width:250px;margin:10px"
+                                         t-attf-src="data:image/*;base64,{{o.img_estado3}}"/>
+                                </t>
+                                <t t-if="o.img_estado4 != False">
+                                    <img style="height: 250px;width:250px;margin:10px"
+                                         t-attf-src="data:image/*;base64,{{o.img_estado4}}"/>
+                                </t>
+                                <t t-if="o.img_estado5 != False">
+                                    <img style="height: 250px;width:250px;margin:10px"
+                                         t-attf-src="data:image/*;base64,{{o.img_estado5}}"/>
+                                </t>
+                                <t t-if="o.img_estado6 != False">
+                                    <img style="height: 250px;width:250px;margin:10px"
+                                         t-attf-src="data:image/*;base64,{{o.img_estado6}}"/>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </t>        
+            </t>
+        </t>
+    </template>
+
+</odoo>

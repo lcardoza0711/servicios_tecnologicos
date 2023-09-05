@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id = "botones_ticket_inspeccion" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.inherited.inspeccion</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//button[@name='assign_ticket_to_self']" position="after">
+                <button name="crear_reporte_inspeccion" string="Crear inspección" type="object" class="btn btn-primary"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_email']" position="after">
+                <field name = "oportunidad_id"></field>
+            </xpath>
+
+            <button name="action_open_helpdesk_ticket" position="after">
+                <button class="oe_stat_button" name="ver_inspecciones" type="object" icon="fa-ticket">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="cuenta_inspecciones" nolabel="1"/>
+                        </span>
+                        <span class="o_stat_text">
+                            Inspecciones
+                        </span>
+                    </div>
+                </button>
+            </button>
+
+        </field>
+    </record>
+
+    
+
+    <record id="seq_reporte_inspeccion" model="ir.sequence">
+       <field name="name">Secuencia de inspección</field>
+       <field name="code">reporte.inspeccion</field>
+       <field name="prefix">Inspección #</field>
+       <field name="padding">5</field>
+       <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="view_reporte_inspeccion_form" model="ir.ui.view">
+        <field name="name">reporte.inspeccion.form</field>
+        <field name="model">reporte.inspeccion</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group col = "2">
+                        <group>
+                            <field name = "oportunidad_origen"></field>
+                            <field name = "ticket"></field>
+                            <field name = "cliente"></field>
+                            <field name = "contacto"></field>
+                            <field name = "telefono"></field>
+                            <field name = "email"></field>
+                            <field name = "create_uid"></field>
+                        </group> 
+                        <group>
+                            <field name = "create_date"></field>
+                            <field name = "lineas_producto" widget="many2many_tags"></field>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string = "Lista de productos">
+                            <field name = "lista_producto">
+                                <tree editable="bottom" >
+                                    <field name = "producto" options="{'no_create': True, 'no_create_edit':True}"></field>
+                                    <field name = "cantidad"></field>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string = "Materiales a utilizar">
+                            <field name = "materiales">
+                                <tree editable="bottom">
+                                    <field name = "descripcion"></field>
+                                    <field name = "cantidad"></field>
+                                    <field name = "unidad_de_medida"></field>
+                                    <field name = "observacion"></field>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    
+                    <group col = "2">
+                        <group>
+                            <field name = "equipos_adicionales"></field>
+                            <field name = "horas_instalacion"></field>
+                        </group>
+                        <group>
+                            <field name = "dias_instalacion"></field>
+                            <field name = "observaciones_adicionales"></field>
+                        </group>
+                    </group>
+
+                    <group col = "2" string = "Estado de lo solicitado: ">
+                        <group> 
+                            <field name = "img_estado1" widget="image"></field>
+                            <field name = "img_estado2" widget="image"></field>
+                            <field name = "img_estado3" widget="image"></field>    
+                        </group>
+                        
+                        <group> 
+                            <field name = "img_estado4" widget="image"></field>
+                            <field name = "img_estado5" widget="image"></field>
+                            <field name = "img_estado6" widget="image"></field>    
+                        </group>
+                    </group>
+                    
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>         
+
+            </form>
+        </field>
+    </record>
+</odoo>

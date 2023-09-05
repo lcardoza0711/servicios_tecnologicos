@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Email Template -->
+        <record id="correo_mantenimiento_treinta" model="mail.template">
+            <field name="name">Correo de recordatorio de tickets para responsables</field>
+            <field name="model_id" ref="model_equipo_entrust_contrato"/>
+            <field name="subject">¡Los siguientes mantenimientos son dentro de 30 días!</field>
+            <field name="email_from">odoo@akdigitales.com</field>
+            <field name="body_html">
+                <![CDATA[
+                
+                <p>Hola, estimado/a <span t-esc="ctx['responsable'].name"/></p>
+                <p>Los siguientes mantenimientos están pactados para dentro 30 días: </p>
+
+                <ul>
+                    <t t-foreach="ctx['contratos']" t-as="contrato">
+                        <li>
+                            <p> El Contrato #: <span t-esc="contrato[1].name"/> - Cliente: <span t-esc="contrato[1].cliente.name"/>. 
+                                <t t-if="contrato[0] == 'primer'">
+                                    Tiene su primera visita el día: 
+                                    <span t-esc="contrato[1].fecha_primera" />
+                                </t>
+                                <t t-if="contrato[0] == 'segundo'">
+                                    Tiene su segunda visita el día:
+                                    <span t-esc="contrato[1].fecha_segunda" /> 
+                                </t>
+                            </p>
+                        </li>
+                    </t>
+                </ul> 
+                <p> ¡Recuerda llamar al cliente pronto! </p>
+                ]]>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="agregar_campos_ticket" model="ir.ui.view">
+        <field name="name">crm.lead.plan.inherited.crm</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//button[@name='assign_ticket_to_self']" position="before">
+                 <field name="ocultar_equipos" invisible="1"/>
+                <button name="crear_bitacora_servicio" string="Crear bitacora" type="object" class="btn btn-primary"  attrs="{'invisible':[('ocultar_equipos','=',True)]}"/>
+            </xpath>
+            <button name="action_open_helpdesk_ticket" position="after">
+
+                <button class="oe_stat_button" name="ver_bitacora_servicio" type="object" icon="fa-ticket"  attrs="{'invisible':[('ocultar_equipos','=',True)]}">
+                        <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value"  attrs="{'invisible':[('ocultar_equipos','=',True)]}">
+                            <field name="cuenta_bitacora_servicio" nolabel="1"/>
+                        </span>
+                        <span class="o_stat_text">
+                            Bitacoras de servicio
+                        </span>
+                    </div>
+                </button>
+            </button>
+
+
+
+
+        </field>
+    </record>
+</odoo>
+            

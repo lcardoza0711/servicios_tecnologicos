@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="menu_action_equipo_mantenimiento" model="ir.actions.act_window">
+        <field name="name">Equipos Entrust</field>
+        <field name="res_model">equipo.entrust</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <record id="menu_action_equipo_entrust_contrato" model="ir.actions.act_window">
+        <field name="name">Contratos</field>
+        <field name="res_model">equipo.entrust.contrato</field>
+        <field name="view_mode">tree,form,kanban,pivot</field>
+    </record>
+
+
+    <record id = "menu_action_entrega_producto" model="ir.actions.act_window">
+        <field name = "name">Entrega de Productos</field>
+        <field name = "res_model">entrega.producto</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="menu_action_bitacora_servicio" model="ir.actions.act_window">
+        <field name="name">Bitacoras de servicio</field>
+        <field name="res_model">bitacora.servicio</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="menu_action_bitacora_servicio_plantilla" model="ir.actions.act_window">
+        <field name="name">Plantillas de bitacora de servicio</field>
+        <field name="res_model">bitacora.servicio.plantilla</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="menu_action_mantenimientos" model="ir.actions.act_window">
+        <field name="name">mantenimientos</field>
+        <field name="res_model">equipo.mantenimiento</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+  <menuitem id="menu_equipo_entrust_raiz" name="Equipos" parent="helpdesk.menu_helpdesk_root"/>
+  <menuitem id="menu_equipo_mantenimiento" name="Mantenimientos" parent="helpdesk.menu_helpdesk_root" action="menu_action_mantenimientos"/>
+    <menuitem id="menu_equipo_entrust" name="Equipos Entrust" parent="menu_equipo_entrust_raiz" action="menu_action_equipo_mantenimiento"/>
+<!--    <menuitem id="menu_equipo_entrust_contrato" name="Contratos" parent="menu_equipo_entrust_raiz" action="menu_action_equipo_entrust_contrato"/>    -->
+    <menuitem id="menu_bitacora_servicio" name="Bitacoras de servicio" parent="servicios_tecnologicos.menu_equipo_entrust_raiz" action="menu_action_bitacora_servicio"/>
+    <menuitem id="menu_bitacora_servicio_plantilla" name="Plantillas de bitacora de servicio" parent="servicios_tecnologicos.menu_equipo_entrust_raiz" action="menu_action_bitacora_servicio_plantilla"/>
+
+    <menuitem id="menu_equipo_entrust_contratos_raiz" name="Contratos" parent="helpdesk.menu_helpdesk_root"/>
+    <menuitem id="menu_equipo_entrust_contrato" name="Contratos" parent="menu_equipo_entrust_contratos_raiz" action="menu_action_equipo_entrust_contrato"/>
+<!--    <menuitem id="menu_equipo_entrust_contrato_tipos" name="Tipos de Contratos" parent="menu_equipo_entrust_contratos_raiz" action="menu_action_equipo_entrust_contrato_tipo"/>-->
+
+
+</odoo>

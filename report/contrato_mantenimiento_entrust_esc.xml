@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="paperformat_equipo_entrust_contrato" model="report.paperformat">
+        <field name="name">Formato de papel para Contrato de servicios Entrust Escritorio</field>
+        <field name="default" eval="True" />
+        <field name="format">Letter</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">20</field>
+        <field name="margin_bottom">30</field>
+        <field name="header_spacing">15</field>
+        <field name="header_line" eval= "False"/>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_equipo_entrust_contrato" model="ir.actions.report">
+        <field name="name">Contrato de servicios Entrust Escritorio</field>
+        <field name="model">equipo.entrust.contrato</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">servicios_tecnologicos.reporte_equipo_entrust_contrato</field>
+        <field name="print_report_name">'Contrato Servicio Entrust Esc.  - '+object.name+'.pdf'</field>
+        <field name="binding_model_id" ref="model_equipo_entrust_contrato" />
+        <field name="binding_type">report</field>        
+    </record>
+
+    <template id="reporte_equipo_entrust_contrato">
+        <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+                    
+                <!--TODO:Por que el texto cuando pongo uyna linea en negritas todo el texto lo hace?-->
+                    <div class = "header d-flex">
+
+
+
+
+
+                        <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" style="width:200px;width:200px" alt="Logo"/>
+                        <img src='/servicios_tecnologicos/static/src/img/entrust.png' style="width:150px;width:150px; margin-left: 30px" alt="Logo"/>
+                        <div style = "padding-left: 300px">
+                            <b style = "color: #3A5EE4">TALLER DE SOPORTE TÉCNICO</b><br />
+                            <b>Plan de soporte Nº <t t-esc="o.name"/></b>
+                        </div>
+                    </div> 
+
+                    <div class = "page" style = "font-size: 80%;">
+                        <div class="text-center">                            
+                            <p>PLAN DE SERVICIO DE MANTENIMIENTO PREVENTIVO Y CORRECTIVO DE EQUIPO DE IMPRESIÓN DE TARJETAS PVC DATACARD.</p>
+                        </div>
+                        <div name = "cabecera" style = "margin-top: 20px">
+                            <p>
+                                El presente documento busca garantizar el buen funcionamiento del (o los) equipo(s) _<span style="text-decoration: underline; " t-foreach="o.equipos" t-as="i">(<t t-esc="i.modelo.name"/> SN: <t t-esc="i.name"/>) </span>_ propiedad de _<span style="text-decoration: underline; "><t t-esc="o.cliente.name"/></span>_ , a través del plan de soporte tipo <span style="text-decoration: underline; "><t  t-esc="o.nivel_contrato"/></span> , con Nº <span style="text-decoration: underline; "><t t-esc="o.name"/></span> , de renovación anual, vigente desde la fecha <span style="text-decoration: underline; "><t t-esc="o.fecha_inicio"/></span>
+                                hasta el <span style="text-decoration: underline; "><t t-esc="o.fecha_vencimiento"/></span>. El o los dispositivos a los que aplica el presente plan de servicio de mantenimiento preventivo son los componentes de la (o
+                                las) impresora(s) con Nº de serie  <span style="text-decoration: underline; " t-foreach="o.equipos" t-as="y"> <t t-esc="y.name"/><t /></span> ubicado en las instalaciones de EL CLIENTE.
+                            </p>
+                        </div>                        
+                        <div name = "servicios" style = "margin-top: 20px">
+                            <ul>
+                                <li>SERVICIOS</li>
+                            </ul>
+                            <p>AK DIGITAL se compromete a realizar en las instalaciones de EL CLIENTE las rutinas de servicio de mantenimiento preventivo, correctivo o asesoría técnica, para garantizar la buena marcha y operación normal del o los equipos descritos. Según el plan de servicio contratado, los servicios incluyen:</p>                        
+                        </div>
+                        <p>
+                            <ul style = "list-style-image:url('/servicios_tecnologicos/static/src/img/check-01.png');list-style-position:inside;">
+                                <li>
+                                    Acceso 24/7 al Service Desk (sistema de tickets).
+                                </li>
+                                <li>
+                                    Descargas, actualizaciones y mantenimientos del software y/o firmware.
+                                </li>
+                                <li>
+                                    Respaldo de la garantía de fábrica de 36 meses.
+                                </li>
+                                <li>
+                                    Equipo de contingencia en calidad de préstamo en caso de ser necesario.
+                                </li>
+                                <li>
+                                    <span style="text-decoration: underline;">1</span> a <span style="text-decoration: underline;">3</span>  Horas de servicio técnico correctivo multicanal (Presencial o a distancia. El número de horas de servicio técnico correctivo y/o de asesoría ofrecido se basa en el producto de Datacard que haya adquirido. Las horas de servicio y/o asesoría multicanal van de 3 a 8 por año mientras el plan esté activo).
+                                </li>
+                                <li>
+                                    <span style="text-decoration: underline;">2</span> Mantenimientos preventivos por año.
+                                </li>
+                                <li>
+                                    <span style="text-decoration: underline;">2</span> Certificaciones sobre uso y manejo del hardware y software (nº de personas).
+                                </li>
+                                <li>
+                                    <span style="text-decoration: underline;">1</span> Horas de asesoría adicional en el uso del software
+                                </li>
+                                <li>
+                                    <span style="text-decoration: underline;">1</span> Diseño de tarjetas (Cada diseño de plantilla incluye 3 propuestas de diseño y hasta 5 correcciones en la plantilla de tarjeta seleccionada).
+                                </li>
+                                <li>
+                                    Descuento en repuestos del <t style="text-decoration: underline;" /> %
+                                </li>
+                            </ul>                            
+                        </p>
+                        <ul>
+                            <li>VIGENCIA DE LOS SERVICIOS CONTRATADOS</li>
+                        </ul>
+                        <p>El presente plan de servicios de mantenimiento tendrá una vigencia de doces meses contados a partir de la fecha de firma del presente plan. Cualquier
+                        modificación que deba hacerse al alcance de estos servicios o a las especificaciones técnicas por causa justificada, se hará por escrito de común acuerdo
+                        entre las partes.
+                        <br></br>
+                            <br></br>
+                        <span style="text-decoration: underline;   font-weight: bold; ">Este plan será prorrogable por períodos de un año a partir de su vencimiento. Si una de las partes no desea continuarlo, deberá notificarlo por escrito a la
+                        otra, con 30 días de anticipación a su vencimiento; de lo contrario, se tendrá por entendida la renovación para un período igual. Al finalizar este plan,
+                        finalizará la responsabilidad de AK DIGITAL en relación al equipo o los equipos cubiertos en el mismo.</span> </p>
+                        <p>
+                            <ul>
+                                <li>
+                                    VALOR DEL PLAN Y FORMA DE PAGO
+                                </li>
+                            </ul>
+                        </p>
+                        <p>
+                        El valor del plan por los servicios prestados es por la suma de U$ <t style="text-decoration: underline;" t-esc="o.sale_order_id.amount_untaxed" /> ( dólares de los Estados Unidos de
+América) + IVA. El monto detallado deberá ser cancelado en una sola cuota anual al momento de firmar el plan.<t style="text-decoration: underline;" t-esc="o.sale_order_id.amount_total"  />
+                        </p>
+                        <p>
+                            <ul>
+                                <li>DETALLE Y ALCANCES DEL SERVICIO</li>
+                            </ul>
+                        </p>
+                        <p>
+                            El objeto del plan de servicio es contar con personal técnico especializado debidamente certificado por DATACARD en las labores de mantenimiento
+preventivo y correctivo de los equipos de impresión de tarjetas pvc con el propósito de garantizar el buen funcionamiento y preservación de la (o las)
+impresora(s).
+Para mantenimientos preventivos y/o correctivos AK DIGITAL proporcionará un único punto de contacto a través de su mesa de servicio en línea (Service
+Desk) a través de http://www.ak.com.ni/soporte-tecnico/ disponible de lunes a viernes de 08:00 am a 05:00 pm. Si la solicitud de mantenimiento es
+realizada en horas de la mañana antes de las 12:00 pm, esta será realizada el mismo día, en caso contrario, el servicio será realizada al día siguiente hábil,
+antes de la 10:00 am o en común acuerdo con EL CLIENTE.
+Para efectuar el servicio de mantenimiento preventivo y/o correctivo, AK DIGITAL realizará una visita cada <span style="text-decoration: underline;">6</span> meses, coordinada con el personal técnico
+que EL CLIENTE designe. Dentro de las actividades a realizar están:
+                        </p>
+                        <p>
+                            <ol>
+                                <li value="1">Revisiones físicas del funcionamiento, ajuste y estado general de las partes mecánicas, eléctricas y electrónicas de los equipos, así como las limpiezas de
+las partes.</li>
+                            </ol>
+                            <ol>
+                                <li value="2">La asesoría de la visita de servicio de mantenimiento incluye:</li>
+                            </ol>                            
+                            <ul style = "list-style-image:url('/servicios_tecnologicos/static/src/img/check-01.png');list-style-position:inside;">
+                                <li>Diagnóstico y previsión de fallas.</li>
+                                <li>Brindar recomendaciones y consejos prácticos al operador.</li>
+                                <li>Asesoría en la operación y uso de materiales de consumo para un mejor aprovechamiento.</li>
+                                <li>Orientación sobre nuevos sistemas y opciones de manejo.</li>
+                            </ul>
+                            
+                            <ol>
+                                <li value="3">El procedimiento correctivo de la visita de servicio incluye:</li>
+                            </ol>
+                            <ul style = "list-style-image:url('/servicios_tecnologicos/static/src/img/check-01.png');list-style-position:inside;">
+                                <li>Realizar el diagnóstico de las fallas encontradas, las cuales serán discutidas con el personal asignado por EL CLIENTE y el Responsable del Área de
+Impresión.</li>
+<li>Previo a la reparación, se presentará el diagnóstico a EL CLIENTE, en el cual se indicará el trabajo a realizar, los repuestos que se van a cambiar, el plazo de
+entrega de éstos, así como los costos por concepto de repuestos.</li>
+                                <li>Reparación especializada por personal capacitado de AK DIGITAL (Únicamente mano de obra).</li>
+                                <li>El desarme, sustitución y ensamble de piezas del equipo.</li>
+                                <li>Ajuste y calibración de piezas nuevas.</li>
+                                <li>La mano de obra para la sustitución de piezas.</li>
+                                <li>Transporte de partes o la totalidad del equipo, para su reparación siempre y cuando así lo determine el técnico. Este transporte corre por cuenta de EL
+CLIENTE.</li>
+                            </ul>
+                            
+                            <ol>
+                                <li value="4">Se entregará un Reporte de Visita el mismo día luego de finalizado el mantenimiento. Este reporte debe ser revisado y aprobado por el encargado del
+equipo, o en su ausencia por una persona autorizada. Este reporte incluirá e indicará claramente el servicio brindado.</li>
+                            </ol>
+                            <ol>
+                                <li value="4">AK DIGITAL se compromete a realizar un número limitado de hasta <span style="text-decoration: underline;">2</span> visitas complementarias en caso de ser necesario para reinstalar o capacitar a
+nuevos usuarios sobre el uso y manejo del equipo, software e insumos.</li>
+                            </ol>
+                        </p>
+
+                        <p>
+                            <ul>
+                                <li>CONDICIONES</li>
+                            </ul>
+                        </p>
+                        <p>
+                            <ol style="list-style:upper-latin;">
+                                <li>
+                                    AK DIGITAL se compromete a mantener el equipo objeto de este PLAN DE SERVICIO DE MANTENIMIENTO PREVENTIVO Y CORRECTIVO DE EQUIPO DE
+    IMPRESIÓN DE TARJETAS PVC DATACARD, en condiciones normales de funcionamiento, bajo los términos de este plan, siempre y cuando, EL CLIENTE
+    opere el equipo con personal debidamente entrenado por AK DIGITAL, o evaluado por la empresa, y ponga en práctica las indicaciones técnicas e
+    instrucciones recibidas.
+                                </li>
+                                <li>
+                                    A los efectos del párrafo anterior, se entiende como condiciones normales de funcionamiento, aquellas para las cuales el equipo está fabricado conforme a
+las capacidades asignadas por el fabricante, su velocidad, construcción y especificaciones técnicas.
+                                </li>
+                                <li>
+                                    AK DIGITAL no asume ninguna responsabilidad por daños especiales o incidentales, que involucren pérdida de trabajos o materiales procesados en el
+equipo cubierto por este Plan, por lo que no reconocerá suma alguna por costos de reemplazo o cambio de materiales o suministros, siempre y cuando el
+daño mecánico no fuese causado por el prestatario del servicio técnico. Nota: Esto no se refiere a los materiales que se tengan que usar para pruebas.
+                                </li>
+                                <li>
+                                    AK DIGITAL se compromete a mantener una Bitácora de la máquina, para uso exclusivo y propiedad confidencial de AK DIGITAL y EL CLIENTE donde se
+registrarán los trabajos que en general su técnico realice; así mismo, se incluirán recomendaciones, consejos y demás observaciones técnicas pertinentes;
+si las mismas no se respetaren, AK DIGITAL queda en libertad de dar por terminado el presente Plan sin responsabilidad de su parte. Esto se notificará por
+escrito.
+                                </li>
+                                <li>
+                                    AK DIGITAL se compromete a atender dentro del presente PLAN DE SERVICIO DE MANTENIMIENTO PREVENTIVO Y CORRECTIVO DE EQUIPO DE
+IMPRESIÓN DE TARJETAS PVC DATACARD, todas las llamadas de emergencia que genere la operación o reparación del equipo objeto de este Plan.
+                                </li>
+                                <li>
+                                    AK DIGITAL se compromete a atender todos los servicios ofrecidos en el presente PLAN DE SERVICIO DE MANTENIMIENTO PREVENTIVO Y CORRECTIVO
+DE EQUIPO DE IMPRESIÓN DE TARJETAS PVC DATACARD 0 en forma permanente, con personal técnico debidamente entrenado.
+                                </li>
+                            </ol>
+                        </p>
+                        <p>
+                            <ul>
+                                <li>
+                                    OBLIGACIONES DEL CLIENTE
+                                </li>
+                            </ul>
+                        </p>
+                        <p>
+                            <ol style="list-style:upper-latin;">
+                                <li>
+                                    Ofrecer al técnico todas las facilidades necesarias para realizar su labor. Para ello, ambas partes establecen como fecha de visita, los días del mes resulten
+más convenientes para efectuar los servicios técnicos de este Plan. Si por razones no previstas de algunas de las partes se requiera reprogramación esta
+deberá notificarse con dos días de anticipación, para permitir a ambas partes coordinar debidamente la visita.
+                                </li>
+                                <li>
+                                    EL CLIENTE se compromete expresamente a seguir las recomendaciones del Técnico o del Jefe de Servicio Técnico, en lo relativo a la operación de la
+maquinaria, manejo y uso de materiales de consumo.
+                                </li>
+                                <li>
+                                    EL CLIENTE se compromete expresamente a asegurar un suministro de corriente adecuada, conforme a las especificaciones del fabricante, para la
+operación del equipo. De lo contrario, AK DIGITAL recomendará lo que se debe usar en cada caso, para protección del mismo. Si EL CLIENTE por propia
+voluntad ignora o incumple la recomendación, EL CLIENTE asumirá toda la responsabilidad que se genere por el no acatamiento de la misma.
+                                </li>
+                                <li>
+                                    El equipo debe utilizar insumos para los cuales fue diseñado y construido. Para tal efecto, AK DIGITAL recomendará o aprobará los insumos que, de
+acuerdo a las especificaciones técnicas establecidas por el fabricante, le permitirá al equipo un funcionamiento normal. Las llamadas de emergencia o
+reparaciones ocasionadas por fallas de las máquinas, debidas al NO seguimiento de las recomendaciones técnicas dadas (de cualquier índole), no se
+incluyen en este Plan y los costos incurridos en mano de obra o repuestos serán asumidos por EL CLIENTE. El procedimiento establecido para estos casos
+es:
+                                    <ol>
+                                        <li>El técnico registrará las anomalías en la Bitácora y notificará al Jefe de Servicio Técnico.</li>
+                                        <li>El Jefe de Servicio Técnico comprobará dicha anomalía</li>
+                                    </ol>
+                                </li>
+                                <li>
+                                    EL CLIENTE disfrutará de los beneficios y términos de este Plan, siempre y cuando mantenga al día sus obligaciones de pago relativas a la maquinaria que
+cubre este Plan; caso contrario, para obtener el servicio, deberá cancelar por separado la visita a la tarifa vigente que es de US$100.00 (Cien dólares de los
+Estados Unidos de América), cada hora del tiempo de servicio.
+                                </li>
+                                <li>
+                                    EL CLIENTE se compromete expresamente, a no permitir la operación del equipo cubierto por este Plan, por personas no autorizadas o debidamente
+entrenadas por AK DIGITAL.; así mismo, se compromete expresamente a no permitir que personas ajenas o de otra empresa, revisen, ajusten, modifiquen,
+reparen o calibren en modo alguno, el equipo cubierto por este Plan. Si EL CLIENTE por propia voluntad ignora o incumple la recomendación, EL CLIENTE
+asumirá toda la responsabilidad y costos por errores que se generen.
+                                </li>                                
+                            </ol>
+                        </p>
+                        <p>
+                            <ul>
+                                <li>
+                                    CONFIDENCIALIDAD
+                                </li>
+                            </ul>
+                        </p>
+                        <p>
+                            En el desempeño de sus obligaciones de conformidad a este Plan, AK DIGITAL podrá tener acceso a información privilegiada y confidencial; a menos que
+se autorice lo contrario por AK DIGITAL no podrá revelar a terceras personas esta información o utilizarla para ningún propósito fuere del contexto de este
+plan. Una vez finalizado el presente plan, y sin autorización previa, expresa y escrita de parte de EL CLIENTE, AK DIGITAL no podrá utilizar o revelar a
+terceras personas ningún tipo de información a la que haya tenido acceso por motivo del servicio prestado en virtud del presente plan, que sea de
+naturaleza técnica, privilegiada y confidencial.
+                        </p>
+                        <p>
+                            <ul>
+                                <li>
+                                    CASO FORTUITO O FUERZA MAYOR
+                                </li>
+                            </ul>
+                        </p>
+                        <p>
+                            Las partes podrán suspender y no serán responsables por el retardo incumplimiento en la ejecución de las obligaciones contractuales derivadas del
+presente plan cuando la ejecución sea imposible o irrazonablemente onerosa por motivo de fuerza mayor o caso fortuito.
+                        </p>
+                        <p>
+                            La fuerza mayor o caso fortuito es aquel evento, que no depende de la voluntad o capacidad de las partes, escapa a su control, es de carácter imprevisible e
+insoportable, que las partes no pudieron de forma razonable haberlo previsto al momento de la firma del plan y no hubiesen podido razonablemente haber
+superado o evitado sus efectos. Se consideran tales, sin que la presente enumeración tenga carácter taxativo: huelga, boicot, incendio, guerra declarada o
+no, asonadas, revoluciones, interrupción de energía, cataclismos naturales, motines sociales, Factum Principis.
+                        </p>
+                        <p>
+                            La parte que pretenda hacer valer esta cláusula deberá comunicar de inmediato o apenas sea posible, por escrito, a la otra parte la existencia del evento de
+fuerza mayor y los efectos sobre la ejecución de las obligaciones objeto del plan. Igual comunicación deberá ser enviada cuando haya cesado el evento de
+fuerza mayor y/o sus efectos. La omisión de la parte obligada a efectuar esta comunicación, tendrá el efecto de hacerla responsable, por todos aquellos
+daños provocados a consecuencia del evento de fuerza mayor relacionados con la ejecución de este plan.
+                        </p>
+                        <p>
+                            Si las causas de exoneración de responsabilidad por fuerza mayor o caso fortuito subsisten por un periodo superior a un mes, cualquiera de las partes
+podrá ejercer su derecho a dar por resuelto el presente plan en la forma establecida.
+                        </p>
+                        <p>
+                            Todo plazo dentro del que deba realizar una actividad o tarea en virtud de este plan se prorrogará por un periodo igual a aquel durante el cual dicha parte
+no haya podido realizar tal actividad como consecuencia de un evento de fuerza mayor o caso fortuito.
+                        </p>
+                        <p>
+                            <ul>
+                                <li>
+                                    NOTIFICACIONES
+                                </li>
+                            </ul>
+                        </p>
+                        <p>
+                            Toda notificación entre las partes en virtud del Plan se hará por escrito, correo electrónico, teléfono o fax y será confirmada por escrito a la parte que
+corresponda, a la siguiente dirección:
+                        </p>
+                        <p>
+                            <ol style = "list-style:lower-latin;">
+                                <li>
+                                    EL CLIENTE: _____________________<t t-esc="o.cliente.email"/>___ / <t t-esc="o.cliente.mobile"/>_________________________________________ (correo y número de teléfono del cliente)
+                                </li>
+                                <li>
+                                    AK DIGITAL: soporte@akdigitales.com, tecnologia@akdigitales.com,<!--Aquí va un otro correo (el tecnico)-->
+Teléfono: 2252-6778
+                                </li>
+                            </ol>
+                        </p>
+                        <p>La notificación entrará en vigor en el momento de su entrega o en la que se especifique en la notificación, si dicha fecha fuese posterior a la entrega de la
+misma.</p>
+                        <p>
+                            <ul>
+                                <li>ACEPTACIÓN</li>
+                            </ul>
+                        </p>
+                        <p>
+                            Estando conformes con las cláusulas antes descritas, firmamos este plan en dos tantos de un mismo tenor, en la ciudad de Managua, a los <span style="text-decoration: underline;"><t t-esc='datetime.date.today().strftime("%d")'/></span> días del
+mes de <span style="text-decoration: underline;"><t t-esc='datetime.date.today().strftime("%B")'/></span> del año <span style="text-decoration: underline;"><t t-esc='datetime.date.today().strftime("%Y")'/></span> .
+                        </p>
+                        <p>
+                            <b>EL CLIENTE</b> <br />
+
+                            <p>______________________________________________ (FIRMA DEL CLIENTE)
+______________<t t-esc="o.persona_contacto.name"/>__________________ (Nombre de la persona de contacto)<br /><br />
+________________________<t t-esc="o.persona_contacto.function"/>______________________ (Puesto)
+_____________________<t t-esc="o.cliente.name"/>_________________________ (Nombre de la Empresa)<br /><br />
+AK DIGITAL SOLUCIONES INTEGRALES, S.A.<br /><br />
+______________________________________________ (FIRMA)
+
+____________________ <t t-esc="o.tecnico.name"/>_________________________ (Asesor técnico comercial)<br />
+Centro de Soporte Técnico - AK DIGITAL</p>
+                        </p>                       
+                    </div>
+
+
+
+
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

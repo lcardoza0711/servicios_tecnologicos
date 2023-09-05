@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="inherit_wizard_ticket_lead_view" model="ir.ui.view">
+        <field name="name">inherit.wizard.lead.ticket.view</field>
+        <field name="model">helpdesk.ticket.to.lead</field>
+        <field name="inherit_id" ref="crm_helpdesk.helpdesk_ticket_to_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='team_id']" position="attributes">
+                <attribute name="domain">[('id', '=', 22)]</attribute>
+            </xpath>
+            <xpath expr="//field[@name='team_id']" position="before">
+                <field name="responsable" />
+                <field name="descripcion" />
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

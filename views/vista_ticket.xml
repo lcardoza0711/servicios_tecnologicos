@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_helpdesk_ticket_tree_jhjkhjkhjk" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.tree</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk.helpdesk_tickets_view_tree"/>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="contrato_id"/>
+                <field name="equipo_id"/>
+            </xpath>
+          
+        </field>
+    </record>
+
+    <record id="view_helpdesk_ticket_form_jasdfkj" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.form.datos.contratos</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"/>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="ocultar_equipos" invisible="1"/>
+                <field name="empresa_relacionada"/>
+                <field name="contrato_id" domain="['|', ('cliente','=',partner_id), '&amp;', ('cliente','!=',False), ('cliente','=',empresa_relacionada)]" attrs="{'invisible':[('ocultar_equipos','=',True)], 'readonly':[('partner_id','=',False)]}"/>
+                <field name="equipo_id" string="Series" domain="['&amp;', ('contrato_id','!=',False), ('contrato_id','=',contrato_id)]" attrs="{'invisible':[('ocultar_equipos','=',True)], 'readonly':[('partner_id','=',False)]}"/>
+                <field name="fecha"  attrs="{'invisible':[('ocultar_equipos','=',True)]}"/>
+                <field name="modelo_id_"  attrs="{'invisible':[('ocultar_equipos','=',True)]}"/>
+                <field name="persona_contacto_id" domain="[('parent_id','=', partner_id)]" invisible="1"/>
+                <field name="persona_contacto_telefono" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_helpdesk_ticket_form_asdf" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.form.inherit</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk_timesheet.helpdesk_ticket_view_form_inherit_helpdesk_timesheet"/>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">            	
+            <xpath expr="//notebook" position="inside">
+                <page string="Equipos disponibles"  attrs="{'invisible':[('ocultar_equipos','=',True)]}">
+                    <field name="equipos_disponibles">
+                        <tree>
+                            <field name="contrato"/>
+                            <field name="modelo"/>
+                            <field name="serie"/>
+                            <field name="fecha_inicio"/>
+                            <field name="fecha_vencimiento"/>
+                            <button name="seleccionar" string="Seleccionar" type="object" class="btn btn-primary"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+
+            <xpath expr="//field[@name='project_id']" position="attributes">
+            <attribute name='invisible'>0</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Se agrega por ticket 1893 -->
+    <!-- <record id="helpdesk_ticket_encuesta_satisfaccion" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.encuesta.satisfaccion</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk_timesheet.helpdesk_ticket_view_form_inherit_helpdesk_timesheet"/>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Encuesta de satisfacción" name="encuesta_satisfaccion" attrs="{'invisible': [('stage_id', 'not in', [29, 32])]}">
+                    <group name="">
+                      <group name="califacion_servicio">
+                        <field name="calificacion_servicio" string="¿Qué le pareció el servicio?"/>
+                      </group>
+                      <group name="probabilidad_recomendacion">
+                        <field name="probabilidad_recomendacion" string="Del 1 al 10, ¿qué tan probable es que nos recomiende?"/>
+                      </group>
+                    </group>
+                  </page>
+            </xpath>
+          
+        </field>
+    </record> -->
+
+    <!-- Se agrega por ticket 1893 -->
+    <!-- <record id="helpdesk_ticket_encuesta_estado" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.encuesta.estado</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk.helpdesk_tickets_view_tree"/>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='equipo_id']" position="after">
+                <field name="encuesta"/>
+            </xpath>
+          
+        </field>
+    </record> -->
+
+</odoo>

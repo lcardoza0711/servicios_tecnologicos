@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id = "view_entrega_productos_tree" model = "ir.ui.view">
+        <field name = "name">entrega.producto.tree</field>
+        <field name = "model">entrega.producto</field>
+        <field name = "priority">1</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name = "fecha_entrega"/>
+                <field name = "cliente"/>
+                <field name = "contacto"/>               
+            </tree>
+        </field>
+    </record>
+
+    <record id = "view_entrega_productos_form" model = "ir.ui.view">
+        <field name="name">entrega.producto.form</field>
+        <field name="model">entrega.producto</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form>                
+                <sheet>
+                    <div class = "oe_title">
+                        <label for ="tipo_de_ficha"/>
+                        <h1><field name="tipo_de_ficha"/></h1>
+                        <h2><field name="tipo_de_equipo"/></h2>
+                    </div>
+                    <group>                    
+                        <group string = "Informacion del cliente">
+                            <label for="name"/> 
+                            <h2><field name="name"/></h2>
+                            <field name="area"/>
+                            <field name="acesor"/>
+                            <field name="cliente"/>
+                            <field name = "fecha_entrega" attrs="{'invisible': [('tipo_de_ficha','=','prestamo')] }"/>
+                            <field name="fecha" attrs="{'invisible': [('tipo_de_ficha','=','recepcion')] }"/>                       
+                            <field name = "contacto"/>                            
+                            <field name = "telefono_contacto"/>
+                            <field name="entrega" attrs="{'invisible': [('tipo_de_ficha','=','prestamo')] }"/>
+                            <field name="recibe" attrs="{'invisible': [('tipo_de_ficha','=','recepcion')] }"/>
+                            <field name="fecha_devolucion" attrs="{'invisible': [('tipo_de_ficha','=','recepcion')] }"/>
+                        </group>
+                        <group string = "Detalles del equipo">
+                            <field name = "equipos"/>
+                            <field name="modelo"/>
+                            <field name="marca"/>                            
+                            <field name="parte"/>
+                            <field name="tecnico"/>
+                        </group>
+                    </group>                    
+                    <group>
+                        <group string = "Módulos del equipo">
+                            <field name="modulos" nolabel="1">
+                                <tree>
+                                    <field name = "name"/>
+                                    <field name="serie"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group>
+                            <field name ="recepcion_img" attrs="{'invisible': [('tipo_de_ficha','=','prestamo')] }" widget="image"/>
+                            <field name ="prestamo_img" attrs="{'invisible': [('tipo_de_ficha','=','recepcion')] }" widget="image"/>
+                        </group>
+                    </group>
+                    <group string = "Accesorios">
+                        <group>
+                            <table>
+                                <tr>
+                                    <td><field name="ok_transformador"/></td>
+                                    <td><label for="ok_transformador"/></td>
+                                    <td><label for="cant_transformador"/></td>
+                                    <td><field name="cant_transformador" attrs="{'invisible': [('ok_transformador','=',False)] }"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><field name="ok_cables_poder"/></td>
+                                    <td><label for = "ok_cables_poder"/></td>
+                                    <td><label for = "cant_cables_poder"/></td>
+                                    <td><field name="cant_cables_poder" attrs="{'invisible': [('ok_cables_poder','=',False)] }"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                
+                            </table>
+                        </group>
+                        <group attrs="{'invisible': [('tipo_de_equipo', '=', 'seguridad')]}">
+                            <table>
+                                <tr>
+                                    <td><field name="ok_tarjetas_pv"/></td>
+                                    <td><label for ="ok_tarjetas_pv"/></td>
+                                    <td><label for = "cant_tarjetas_pvc"/></td>
+                                    <td><field name="cant_tarjetas_pvc" attrs="{'invisible': [('ok_tarjetas_pv','=',False)] }"/></td>
+                                    <td><label for = "tipo_tarjeta"/></td>
+                                    <td><field name="tipo_tarjeta" attrs="{'invisible': [('ok_tarjetas_pv','=',False)] }"/></td>
+                                </tr>
+                                <tr>
+                                    <td><field name="ok_porta_cinta"/></td>
+                                    <td><label for = "ok_porta_cinta"/></td>
+                                    <td><label for="cant_porta_cinta"/></td>
+                                    <td><field name="cant_porta_cinta" attrs="{'invisible': [('ok_porta_cinta','=',False)] }"/></td>
+                                    <td><label for ="color_porta_cinta"/></td>
+                                    <td><field name="color_porta_cinta" attrs="{'invisible': [('ok_porta_cinta','=',False)] }"/></td>
+                                </tr>
+                                <tr>
+                                    <td><field name="ok_cinta"/></td>
+                                    <td><label for ="ok_cinta"/></td>
+                                    <td><label for ="tipo_cinta"/></td>
+                                    <td><field name="tipo_cinta" attrs="{'invisible': [('ok_cinta','=',False)] }"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><field name="ok_porta_laminador"/></td>
+                                    <td><label for = "ok_porta_laminador"/></td>
+                                    <td><label for ="cant_porta_laminador"/></td>
+                                    <td><field name="cant_porta_laminador" attrs="{'invisible': [('ok_porta_laminador','=',False)] }"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><field name="ok_cinta_laminador"/></td>
+                                    <td><label for = "ok_cinta_laminador"/></td>
+                                    <td><label for ="cant_cinta_laminador"/></td>
+                                    <td><field name="cant_cinta_laminador" attrs="{'invisible': [('ok_cinta_laminador','=',False)] }"/></td>
+                                    <td><label for ="tipo_de_cinta_laminador"/></td>
+                                    <td><field name="tipo_de_cinta_laminador" attrs="{'invisible': [('ok_cinta_laminador','=',False)] }"/></td>
+                                </tr>
+                                <tr>
+                                    <td><field name="ok_equipo_laminacion"/></td>
+                                    <td><label for ="ok_equipo_laminacion"/></td>
+                                    <td><field name="equipo_laminacion" attrs="{'invisible': [('ok_equipo_laminacion','=',False)] }"/></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </group>
+                        <group attrs="{'invisible': [('tipo_de_equipo', '=', 'entrust')]}">
+                            <field name="acceso" class="o_form_field_boolean"/>
+                            <field name="asistencia" class="o_form_field_boolean"/>
+                            <field name="bloqueado" class="o_form_field_boolean"/>
+                            <field name="cd_desbloqueo" class="o_form_field_boolean"/>
+                            <field name="contrasena" class="o_form_field_boolean"/>
+                            <field name="soporte_equipo" class="o_form_field_boolean"/>
+                            <field name="empaque_bolsas" class="o_form_field_boolean"/>
+                            <field name="transformador" class="o_form_field_boolean"/>
+                            <field name="cantidad" class="o_form_field_boolean"/>
+                            <field name="caja" class="o_form_field_boolean"/>
+                            <field name="manuales" class="o_form_field_boolean"/>
+
+                        </group>
+                    </group>
+                    <group string="Observaciones">
+                        <field name="descripcion" nolabel="1" placeholder="Escribir notas" modifiers="{}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo> 

@@ -1,0 +1,22 @@
+<?xml version= "1.0" encoding= "utf-8"?>
+<odoo>
+    <record id= "view_ficha_tecnica_tree" model = "ir.ui.view">
+        <field name = "name">product.template.tree</field>
+        <field name = "model">product.template</field>
+        <field name = "inherit_id" ref = "product.product_template_form_view"/>
+        <field name = "arch" type = "xml">
+            <xpath expr = "//div[@name='options']" position = "inside">
+                <span class = "d-inline-block">
+                    <field name = "contrato"/>
+                    <label for = "contrato"/>
+                </span>
+                <span class = "d-inline-block">
+                    <field name = "tipo_bitacora"/>
+                    <label for = "tipo_bitacora"/>
+                </span>
+
+                
+            </xpath>
+        </field>
+    </record>
+</odoo>

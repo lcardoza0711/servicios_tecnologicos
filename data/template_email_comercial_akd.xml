@@ -1,0 +1,109 @@
+<odoo>
+    <data noupdate="1">
+          <record id="email_template_akad_comercial_reminder" model="mail.template">
+            <field name="name">Correo Recordatorio de renovación de contrato: Visitas realizadas</field>
+            <field name="model_id" ref="servicios_tecnologicos.model_equipo_entrust_contrato"/>
+            <field name="email_from">{{object.responsable.work_email}}</field>
+            <field name="email_to">{{object.tecnico.work_email}}</field>
+            <field name="subject">Recordatorio de renovación del Contrato (Ref {{ object.name or 'n/a' }})</field>
+               <field name="body_html" type="html">
+                 <p style="margin:0px 0 12px 0;box-sizing:border-box;">
+                        Hola <t t-esc="object.tecnico.display_name" data-oe-t-inline="true" oe-keep-contenteditable="" contenteditable="false"></t>  el contrato #<t t-esc="object.name" data-oe-t-inline="true" oe-keep-contenteditable="" contenteditable="false"></t>
+                        vencerá en   <t t-esc="(datetime.datetime.strptime(str(object.fecha_vencimiento), '%Y-%m-%d') - datetime.datetime.strptime(datetime.datetime.strftime((datetime.datetime.now()), '%Y-%m-%d'),'%Y-%m-%d')).days" data-oe-t-inline="true" oe-keep-contenteditable="" contenteditable="false"></t> días.
+
+                    </p>
+
+
+           </field>
+
+        </record>
+
+         <record id="email_template_akad_tecnico_reminder_mantenimiento_semana" model="mail.template">
+            <field name="name">Correo Recordatorio de mantenimiento: Primer aviso</field>
+            <field name="model_id" ref="servicios_tecnologicos.model_equipo_entrust_contrato"/>
+            <field name="email_from">{{object.tecnico.work_email}}</field>
+            <field name="email_to">{{ object.tecnico.work_email }}</field>
+            <field name="subject">Recordatorio de marcado del Contrato (Ref {{ object.name or 'n/a' }})</field>
+               <field name="body_html" type="html">
+
+                  <p>
+                      Estamos a una semana del mantenimiento programado! Revisa el contrato  <t t-esc="object.name" data-oe-t-inline="true" contenteditable="false"></t>
+
+                  </p>
+                             </field>
+
+        </record>
+
+        <record id="email_template_akad_tecnico_reminder_mantenimiento_due" model="mail.template">
+            <field name="name">Correo Recordatorio de mantenimiento</field>
+            <field name="model_id" ref="servicios_tecnologicos.model_equipo_entrust_contrato"/>
+            <field name="email_from">{{object.tecnico.work_email}}</field>
+            <field name="email_to">{{ object.tecnico.work_email }}</field>
+            <field name="subject">Recordatorio de mantenimiento del Contrato (Ref {{ object.name or 'n/a' }})</field>
+               <field name="body_html" type="html">
+
+                  <p>
+                     Hola, hoy es el dia de mantenimiento del contrato  <t t-esc="object.name" data-oe-t-inline="true" contenteditable="false"></t>
+
+                  </p>
+                             </field>
+
+        </record>
+
+<!--        <record id="email_template_akad_tecnico_reminder_primera_visita" model="mail.template">-->
+<!--            <field name="name">Correo Recordatorio de marcado de visitas de contrato: Primera visita</field>-->
+<!--            <field name="model_id" ref="servicios_tecnologicos.model_equipo_entrust_contrato"/>-->
+<!--            <field name="email_from">{{object.tecnico.work_email}}</field>-->
+<!--            <field name="email_to">{{object.responsable.work_email}}</field>-->
+<!--            <field name="subject">Recordatorio de marcado del Contrato (Ref {{ object.name or 'n/a' }})</field>-->
+<!--               <field name="body_html" type="html">-->
+<!--                   <t t-set="dias" t-value="(datetime.datetime.strptime(str(object.fecha_vencimiento), '%Y-%m-%d') - datetime.datetime.strptime(datetime.datetime.strftime((datetime.datetime.now()), '%Y-%m-%d'),'%Y-%m-%d')).days"/>-->
+
+<!--                   <t t-set="estado_vencido">-->
+<!--                   <p>Se encuentra vencido</p>-->
+<!--                   </t>-->
+<!--                   <t t-set="estado_vencido">-->
+<!--                   <p>Se encuentra vencido</p>-->
+<!--                   </t>-->
+
+<!--                   <p style="margin:0px 0 12px 0;box-sizing:border-box;">-->
+<!--                        Hola <t t-esc="object.responsable.display_name" data-oe-t-inline="true" contenteditable="false"></t>  el contrato #<t t-esc="object.name" data-oe-t-inline="true" contenteditable="false"></t>-->
+<!--                        <t t-esc="object.fecha_vencimiento" data-oe-t-inline="true" contenteditable="false"></t>.-->
+<!--                       <t t-out="dias"/>-->
+<!--                   </p>-->
+
+<!--           </field>-->
+
+<!--        </record>-->
+
+<!--         <record id="email_template_akad_tecnico_reminder_segunda_visita" model="mail.template">-->
+<!--            <field name="name">Correo Recordatorio de marcado de visitas de contrato: Visitas realizadas</field>-->
+<!--            <field name="model_id" ref="servicios_tecnologicos.model_equipo_entrust_contrato"/>-->
+<!--            <field name="email_from">{{object.tecnico.work_email}}</field>-->
+<!--            <field name="email_to">{{object.responsable.work_email}}</field>-->
+<!--            <field name="subject">Recordatorio de marcado del Contrato (Ref {{ object.name or 'n/a' }})</field>-->
+<!--               <field name="body_html" type="html">-->
+<!--                   <t t-set="dias" t-value="(datetime.datetime.strptime(str(object.fecha_vencimiento), '%Y-%m-%d') - datetime.datetime.strptime(datetime.datetime.strftime((datetime.datetime.now()), '%Y-%m-%d'),'%Y-%m-%d')).days"/>-->
+
+<!--                   <t t-set="estado_vencido">-->
+<!--                   <p>Se encuentra vencido</p>-->
+<!--                   </t>-->
+<!--                   <t t-set="estado_vencido">-->
+<!--                   <p>Se encuentra vencido</p>-->
+<!--                   </t>-->
+
+<!--                   <p style="margin:0px 0 12px 0;box-sizing:border-box;">-->
+<!--                        Hola <t t-esc="object.responsable.display_name" data-oe-t-inline="true" contenteditable="false"></t>  el contrato #<t t-esc="object.name" data-oe-t-inline="true" contenteditable="false"></t>-->
+<!--                        <t t-esc="object.fecha_vencimiento" data-oe-t-inline="true" contenteditable="false"></t>.-->
+<!--                       <t t-out="dias"/>-->
+<!--                   </p>-->
+
+<!--           </field>-->
+
+<!--        </record>-->
+
+
+
+
+    </data>
+</odoo>

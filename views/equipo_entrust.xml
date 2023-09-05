@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_equipo_entrust_tree" model="ir.ui.view">
+        <field name="name">equipo.entrust.tree</field>
+        <field name="model">equipo.entrust</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree create="false">
+                <field name="marca"/>
+                <field name="modelo"/>
+                <field name="name"/>
+
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_equipo_entrust_form" model="ir.ui.view">
+        <field name="name">equipo.entrust.form</field>
+        <field name="model">equipo.entrust</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="crear_helpdesk_ticket" string="Crear ticket" type="object" class="btn btn-primary"/>
+
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="ver_helpdesk_ticket" type="object" icon="fa-ticket">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="cuenta_helpdesk_ticket" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text">
+                                    Tickets
+                                </span>
+                            </div>
+                        </button>
+
+
+                        <button class="oe_stat_button" name="ver_bitacora_servicio" type="object" icon="fa-file">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="cuenta_bitacora_servicio" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text">
+                                    Bitacoras de servicio
+                                </span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="cliente"/>
+                            <field name="customer"/>
+                            <field name="cntctPhone"/>
+                            <field name="persona_contacto"  domain="[('parent_id', '=', cliente)]"/>
+                            <field name="itemName" />
+                            <field name="itemCode"/>
+                            <field name="status"/>
+                            <field name="modelo"/>
+                            <field name="categorias" invisible="1"/>
+                            <field name="fecha_adquisicion"  invisible="1"/>
+                            <field name="responsable_cliente"/>
+                            <field name="marca"  invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="contrato_id"/>
+                            <field name="parte"  invisible="1"/>
+                            <field name="name"/>
+                            <field name="tecnico"/>
+                            <field name="anio_fabricacion"/>
+                            <field name="descripcion_equipo" invisible="1"/>
+                            <field name="primera_visita"/>
+                            <field name="segunda_visita"/>
+                        </group>
+                    </group>                    
+                    <group string = "Modulos"  invisible="1">
+                        <field name="modulos" nolabel = "1">
+                            <tree editable="bottom">
+                                <field name = "name"/>
+                                <field name = "serie"/>
+
+                            </tree>
+                        </field>
+                    </group>                    
+                    <group string = "Garantias del equipo">
+                        <field name="garantia" nolabel ="1">
+                            <tree editable="bottom">
+                                <field name="fecha_inicio"/>
+                                <field name="fecha_vencimiento"/>
+                                <field name="descripcion"/>
+                                <field name="tipo"/>
+                                <field name="estado_garantia" widget="badge" decoration-success="estado_garantia=='1'" decoration-danger="estado_garantia=='0'"/>
+                            </tree>
+                        </field>
+                    </group>
+
+                <notebook>
+
+                        <page name="modulos" string="Módulos">
+                            <field name="modulos" >
+                                <tree editable="bottom">
+                                  <field name="name"/>
+                                <field name="serie"/>
+                                     </tree>
+                            </field>
+                        </page>
+                        <page name="garantia" string="Sub-tasks">
+                            <field name="garantia" >
+                                <tree editable="bottom">
+                                 <field name="fecha_inicio"/>
+                                <field name="fecha_vencimiento"/>
+                                <field name="descripcion"/>
+                                <field name="tipo"/>
+                                <field name="estado_garantia" widget="badge" decoration-success="estado_garantia=='1'" decoration-danger="estado_garantia=='0'"/>
+                                     </tree>
+                            </field>
+                        </page>
+
+                         <page name="tickets" string="Visitas">
+                            <field name="tickets" >
+                                <tree editable="bottom">
+                                       <field name="timesheet_ids"/>
+
+                                 </tree>
+                            </field>
+                        </page>
+
+                    </notebook>
+
+                </sheet>
+
+
+            </form>
+        </field>
+    </record>
+
+
+</odoo>

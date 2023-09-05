@@ -1,0 +1,706 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_entrega_producto" model="report.paperformat">
+        <field name="name">Formato de papel para Imprimir Ficha</field>
+        <field name="default" eval="True" />
+        <field name="format">Letter</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="header_spacing">30</field>
+        <field name="margin_top">30</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_entrega_producto" model="ir.actions.report">
+        <field name="name">Imprimir Ficha</field>
+        <field name="model">entrega.producto</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">servicios_tecnologicos.reporte_entrega_producto</field>
+        <field name="print_report_name">'Recepcion de Equipos - '+object.name+'.pdf'</field>
+        <field name="binding_model_id" ref="model_entrega_producto" />
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="reporte_entrega_producto">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="o">
+                    <div class = "page" style= "font-size:13px">
+                        <!--Recepcion de equipos-->                                               
+                        <t t-if ="o.tipo_de_ficha == 'recepcion'">
+                            <div>
+                                <div class = "text-center">
+                                    <h3 style = "color:#153058;font-weight: 700;font-size:17px">Ficha de recepción de equipos</h3>
+                                </div>
+                                <div style = "margin-top:15px">
+                                    <table style = "border:none !important">
+                                        <tr style = "border:none !important">
+                                            <th style = "border:none">Número de orden: </th>
+                                            <td style = "border:none !important">
+                                                <span style="margin-left:15px" t-field ="o.name"/>
+                                            </td>
+                                            <th style = "border:none;padding-left:15px">Contacto: </th>
+                                            <td style = "border:none !important">
+                                                <span style="margin-left:15px" t-field ="o.contacto"/>
+                                            </td>
+                                        </tr>
+                                        <tr style = "border:none">
+                                            <th style = "border:none">Fecha de recepción: </th>
+                                            <td style = "border:none !important">
+                                                <span style="margin-left:15px" t-field ="o.fecha_entrega"/>
+                                            </td>
+                                            <th style = "border:none;padding-left:15px">Número de teléfono de Contacto: </th>
+                                            <td style = "border:none !important">
+                                                <span style="margin-left:15px" t-field ="o.telefono_contacto"/>
+                                            </td>
+                                        </tr>
+                                        <tr style = "border:none">
+                                            <th style = "border:none">Empresa/Cliente: </th>
+                                            <td style = "border:none !important">
+                                                <span style="margin-left:15px" t-field ="o.cliente"/>
+                                            </td>
+                                            <th style = "border:none;padding-left:15px">Entrega</th>
+                                            <td style = "border:none !important">
+                                                <span style="margin-left:15px" t-field ="o.entrega"/>
+                                            </td>
+                                        </tr>
+                                        <tr style = "border:none">
+                                            <th style = "border:none">Área solicitante:</th>
+                                            <td style = "border:none !important">
+                                                <span style="margin-left:15px" t-field ="o.area"/>
+                                            </td>
+                                            <th style = "border:none;padding-left:15px">Asesor a cargo:</th>
+                                            <td style = "border:none !important">
+                                                <span style="margin-left:15px" t-field ="o.acesor"/>
+                                            </td>
+                                        </tr>                                   
+                                    </table>
+                                </div>                                                        
+                                <div class = "text-center" style="margin-top:10px">
+                                    <h3 style = "color:#153058;font-weight: 700;font-size:15px">Detalle del producto</h3>
+                                </div>
+                                
+                                <div>
+                                    <table class = "table table-sm" style = "border:1pt solid black">
+                                        <tr style = "border:1pt solid black">
+                                            <th style = "border:1pt solid black">Modelo:</th>
+                                            <td>
+                                                <span style = "margin-left:10px" t-field ="o.modelo"/>
+                                            </td>
+                                        </tr>
+                                        <tr style = "border:1pt solid black">
+                                            <th style = "border:1pt solid black">Marca:</th>
+                                            <td>
+                                                <span style = "margin-left:10px" t-field ="o.marca"/>
+                                            </td>
+                                        </tr>
+                                        <tr style = "border:1pt solid black">
+                                            <th style = "border:1pt solid black">Número de serie:</th>
+                                            <td>
+                                                <span style = "margin-left:10px" t-field ="o.equipos"/>
+                                            </td>
+                                        </tr>
+                                        <tr style = "border:1pt solid black">
+                                            <th style = "border:1pt solid black">Número de parte:</th>
+                                            <td>
+                                                <span style = "margin-left:10px" t-field ="o.parte"/>
+                                            </td>
+                                        </tr>
+                                        <t t-foreach="o.modulos" t-as="linea">
+                                            <tr style = "border:1pt solid black">
+                                                <th style = "border:1pt solid black">
+                                                    <span t-esc ="linea.name + ' S/N:'"/>
+                                                </th>
+                                                <td style = "border:1pt solid black">
+                                                    <span style = "margin-left:10px" t-field ="linea.serie"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </table>
+                                </div>
+                                <!--Accesorios-->
+                                <div class = "text-center">
+                                    <h3 style = "color:#153058;font-weight: 700;font-size:15px">Accesorios</h3>
+                                    <hr size="2px" color="black" />
+                                </div>
+                                <div t-if="o.tipo_de_equipo=='entrust'">
+                                    <table class = "table table-sm" style = "border:none !important">                                    
+                                        <tbody>
+                                            <tr>
+                                                <td class = "text-center" style = "border:none !important">
+                                                    <t t-if ="o.ok_cinta">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            <img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/>
+                                                        </div>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            
+                                                        </div>
+                                                    </t>
+                                                </td>
+                                                <th style = "border:none !important; margin-left:15px">
+                                                    <span style="margin-left:15px">Cinta</span>
+                                                </th>
+                                                <th style = "border:none !important">
+                                                    <span style="margin-left:15px">Tipo</span>
+                                                </th>
+                                                <td style = "border:none !important;width:120px">
+                                                    <span style="margin-left:15px" t-field="o.tipo_cinta"/>
+                                                </td>
+                                            </tr> 
+                                            <tr>
+                                                <!--Check-->
+                                                <td class = "text-center" style = "border:none !important">
+                                                    <t t-if ="o.ok_tarjetas_pv">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            <img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/>
+                                                        </div>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            
+                                                        </div>
+                                                    </t>
+                                                </td>
+                                                <th style = "border:none !important; margin-left:15px">
+                                                    <span style="margin-left:15px">Tarjetas</span>
+                                                </th>
+                                                <th style = "border:none !important">
+                                                    <span style="margin-left:15px">Cantidad</span>
+                                                </th>
+                                                <td style = "border:none !important">
+                                                    <span style="margin-left:15px" t-field="o.cant_tarjetas_pvc"/>
+                                                </td>
+                                                 <th style = "border:none !important;width:135px">
+                                                    <span style="margin-left:15px">Tipo de tarjeta</span>
+                                                </th>
+                                                 <td style = "border:none !important">
+                                                    <span style="margin-left:15px" t-field="o.tipo_tarjeta"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class = "text-center" style = "border:none !important">
+                                                    <t t-if ="o.ok_porta_laminador">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            <img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/>
+                                                        </div>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            
+                                                        </div>
+                                                    </t>
+                                                </td>
+                                                <th style = "border:none !important; margin-left:15px">
+                                                    <span style="margin-left:15px">Porta laminador</span>
+                                                </th>
+                                                <th style = "border:none !important">
+                                                    <span style="margin-left:15px">Cantidad</span>
+                                                </th>
+                                                <td style = "border:none !important">
+                                                    <span style="margin-left:15px" t-field="o.cant_porta_laminador"/>
+                                                </td>
+                                                <td style = "border:none !important">
+                                                    <t t-if="o.color_porta_cinta">
+                                                        <span style="margin-left:15px;font-weight:700">Color </span><span style="margin-left:15px" t-field="o.color_porta_cinta"/>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <!--Check-->
+                                                <td class = "text-center" style = "border:none !important">
+                                                    <t t-if ="o.ok_transformador">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            <img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/>
+                                                        </div>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            
+                                                        </div>
+                                                    </t>
+                                                </td>
+                                                <!--Label-->
+                                                <th style = "border:none !important; margin-left:15px">
+                                                    <span style="margin-left:15px">Transformador</span>
+                                                </th>
+                                                <!--Contidad-->
+                                                <th style = "border:none !important;">
+                                                    <span style="margin-left:15px">Cantidad</span>
+                                                </th>
+                                                <td style = "border:none !important">
+                                                    <span style="margin-left:15px" t-field="o.cant_transformador"/>
+                                                </td>
+                                                <!--Check-->
+                                                <td class = "text-center" style = "border:none !important;padding-left:40px">
+                                                    <t t-if ="o.ok_cables_poder">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            <img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/>
+                                                        </div>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            
+                                                        </div>
+                                                    </t>
+                                                </td>
+                                                <!--Labek-->
+                                                <th style = "border:none !important; margin-left:15px">
+                                                    <span style="margin-left:15px">Cables de poder</span>
+                                                </th>
+                                                <!--Cantidad-->
+                                                <th style = "border:none !important">
+                                                    <span style="margin-left:15px">Cantidad</span>                                               
+                                                </th>
+                                                <td style = "border:none !important">
+                                                    <span style="margin-left:15px" t-field="o.cant_cables_poder"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class = "text-center" style = "border:none !important">
+                                                    <t t-if ="o.ok_porta_cinta">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            <img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/>
+                                                        </div>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            
+                                                        </div>
+                                                    </t>
+                                                </td>
+                                                <th style = "border:none !important; margin-left:15px">
+                                                    <span style="margin-left:15px">Porta Cinta</span>
+                                                </th>
+                                                <th style = "border:none !important">
+                                                    <span style="margin-left:15px">Cantidad</span>
+                                                </th>
+                                                <td style = "border:none !important">
+                                                    <span style="margin-left:15px" t-field="o.cant_porta_cinta"/>
+                                                </td>
+                                                <td class = "text-center" style = "border:none !important;padding-left:40px">
+                                                    <t t-if ="o.ok_cinta_laminador">
+                                                    <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            <img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/>
+                                                        </div>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            
+                                                        </div>
+                                                    </t>
+                                                </td>
+                                                <th style = "border:none !important; margin-left:15px">
+                                                    <span style="margin-left:15px">Cinta laminador</span>
+                                                </th>
+                                                <th style = "border:none !important">
+                                                    <span style="margin-left:15px">Cantidad</span>
+                                                </th>
+                                                <td style = "border:none !important">
+                                                    <span style="margin-left:15px" t-field="o.cant_cinta_laminador"/>
+                                                </td>
+                                            </tr> 
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div t-if="o.tipo_de_equipo=='seguridad'">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <t t-if ="o.acceso"><div style="width:25px;height:25px;border:1pt solid black; border-radius:5px"><img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/></div></t>
+                                            <t t-else=""><div style="width:25px;height:25px;border:1pt solid black; border-radius:5px"></div></t>
+                                            Acceso
+                                        </div>
+                                        <div class="col-3">
+                                            <t t-if ="o.asistencia"><div style="width:25px;height:25px;border:1pt solid black; border-radius:5px"><img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/></div></t>
+                                            <t t-else=""><div style="width:25px;height:25px;border:1pt solid black; border-radius:5px"></div></t>
+                                            Asistencia
+                                        </div>
+                                        <div class="col-3">
+                                            <t t-if ="o.bloqueado"><div style="width:25px;height:25px;border:1pt solid black; border-radius:5px"><img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/></div></t>
+                                            <t t-else=""><div style="width:25px;height:25px;border:1pt solid black; border-radius:5px"></div></t>
+                                            Bloqueado
+                                        </div>
+                                        <div class="col-3">
+                                            <t t-if ="o.cd_desbloqueo"><div style="width:25px;height:25px;border:1pt solid black; border-radius:5px"><img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/></div></t>
+                                            <t t-else=""><div style="width:25px;height:25px;border:1pt solid black; border-radius:5px"></div></t>
+                                            CD desbloqueo
+                                        </div>
+                                    </div>
+                                    <div class="row">                                    
+                                        <div class="col-3">
+                                            <t t-if ="o.contrasena"><div style="width:25px;height:25px;border:1pt solid black; border-radius:5px"><img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/></div></t>
+                                            <t t-else=""><div style="width:25px;height:25px;border:1pt solid black; border-radius:5px"></div></t>
+                                            Contraseña
+                                        </div>
+                                        <div class="col-3">
+                                            <t t-if ="o.soporte_equipo"><div style="width:25px;height:25px;border:1pt solid black; border-radius:5px"><img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/></div></t>
+                                            <t t-else=""><div style="width:25px;height:25px;border:1pt solid black; border-radius:5px"></div></t>
+                                            Soporte de equipo
+                                        </div>
+                                        <div class="col-3">
+                                            <t t-if ="o.empaque_bolsas"><div style="width:25px;height:25px;border:1pt solid black; border-radius:5px"><img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/></div></t>
+                                            <t t-else=""><div style="width:25px;height:25px;border:1pt solid black; border-radius:5px"></div></t>
+                                            Empaque bolsas
+                                        </div>
+                                        <div class="col-3">
+                                            <t t-if ="o.transformador"><div style="width:25px;height:25px;border:1pt solid black; border-radius:5px"><img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/></div></t>
+                                            <t t-else=""><div style="width:25px;height:25px;border:1pt solid black; border-radius:5px"></div></t>
+                                            Transformador
+                                        </div>
+                                    </div>
+                                    <div class="row">                                    
+                                        <div class="col-3">
+                                            <t t-if ="o.cantidad"><div style="width:25px;height:25px;border:1pt solid black; border-radius:5px"><img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/></div></t>
+                                            <t t-else=""><div style="width:25px;height:25px;border:1pt solid black; border-radius:5px"></div></t>
+                                            Cantidad
+                                        </div>
+                                        <div class="col-3">
+                                            <t t-if ="o.caja"><div style="width:25px;height:25px;border:1pt solid black; border-radius:5px"><img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/></div></t>
+                                            <t t-else=""><div style="width:25px;height:25px;border:1pt solid black; border-radius:5px"></div></t>
+                                            Caja
+                                        </div>
+                                        <div class="col-3">
+                                            <t t-if ="o.manuales"><div style="width:25px;height:25px;border:1pt solid black; border-radius:5px"><img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/></div></t>
+                                            <t t-else=""><div style="width:25px;height:25px;border:1pt solid black; border-radius:5px"></div></t>
+                                            Manuales
+                                        </div>
+                                    </div>                                    
+                                </div>
+                                <div class = "text-center">
+                                    <h3 style = "color:#153058;font-weight: 700;font-size:15px">Observaciones</h3>
+                                    <hr size="2px" color="black" />
+                                    <span style="text-left" t-field="o.descripcion"/>
+                                </div>
+                                <t t-if ="o.recepcion_img">
+                                    <div class = "text-center" style="margin-top:10px">
+                                        <h3 style = "color:#153058;font-weight: 700;font-size:15px">Imagen de recepción de equipo</h3>
+                                        <hr size="2px" color="black" />
+                                        <img style="max-width:350px;max-height: 210px;" t-attf-src="data:image/*;base64,{{o.recepcion_img}}"/>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+                        <!--Prestamo de equipos-->
+                        <t t-elif="o.tipo_de_ficha=='prestamo'">
+                            <div>
+                                <div class = "text-center">
+                                    <h3 style = "color:#153058;font-weight: 700;font-size:17px">Préstamos de equipos e impresoras</h3>
+                                </div>
+                                <div style = "margin-top:15px">
+                                    <table style = "border:none !important;width: 600px;">
+                                        <tr style = "border:none !important">
+                                            <th style = "border:none">Número de orden: </th>
+                                            <td style = "border:none !important">
+                                                <span style="margin-left:15px" t-field ="o.name"/>
+                                            </td>
+                                            <th style = "border:none;padding-left:15px">Fecha:</th>
+                                            <td style = "border:none !important">
+                                                <span style="margin-left:15px" t-field ="o.fecha_entrega"/>
+                                            </td>
+                                        </tr>
+                                        <tr style = "border:none">
+                                            <th style = "border:none">Empresa/Cliente: </th>
+                                            <td style = "border:none !important">
+                                                <span style="margin-left:15px" t-field ="o.cliente"/>
+                                            </td>
+                                            <th style = "border:none;padding-left:15px">Contacto: </th>
+                                            <td style = "border:none !important">
+                                                <span style="margin-left:15px" t-field ="o.contacto"/>
+                                            </td>
+                                        </tr>
+                                        <tr style = "border:none">
+                                            
+                                        </tr>
+                                        <tr style = "border:none">
+                                            <th style = "border:none">Número de teléfono de Contacto: </th>
+                                            <td style = "border:none !important">
+                                                <span style="margin-left:15px" t-field ="o.telefono_contacto"/>
+                                            </td>
+                                            <th style = "border:none;padding-left:15px">Entrega:</th>
+                                            <td style = "border:none !important">
+                                                <span style="margin-left:15px" t-field ="o.entrega"/>
+                                            </td>
+                                        </tr>
+                                        <tr style = "border:none">
+                                            
+                                        </tr>
+                                        <tr style = "border:none">
+                                            <th style = "border:none">Fecha estimada de devolución</th>
+                                            <td style = "border:none !important">
+                                                <span style="margin-left:15px" t-field ="o.fecha_devolucion"/>
+                                            </td>
+                                        </tr>
+                                        <tr style = "border:none">
+                                            <th style = "border:none">Área solicitante:</th>
+                                            <td style = "border:none !important">
+                                                <span style="margin-left:15px" t-field ="o.area"/>
+                                            </td>
+                                            <th style = "border:none;padding-left:15px">Asesor a cargo:</th>
+                                            <td style = "border:none !important">
+                                                <span style="margin-left:15px" t-field ="o.acesor"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>                                                        
+                                <div class = "text-center" style="margin-top:10px">
+                                    <h3 style = "color:#153058;font-weight: 700;font-size:15px">Detalle del producto</h3>
+                                </div>
+                                
+                                <div>
+                                    <table class = "table table-sm" style = "border:1pt solid black">
+                                        <tr style = "border:1pt solid black">
+                                            <th style = "border:1pt solid black">Modelo:</th>
+                                            <td>
+                                                <span style = "margin-left:10px" t-field ="o.modelo"/>
+                                            </td>
+                                        </tr>
+                                        <tr style = "border:1pt solid black">
+                                            <th style = "border:1pt solid black">Marca:</th>
+                                            <td>
+                                                <span style = "margin-left:10px" t-field ="o.marca"/>
+                                            </td>
+                                        </tr>
+                                        <tr style = "border:1pt solid black">
+                                            <th style = "border:1pt solid black">Número de serie:</th>
+                                            <td>
+                                                <span style = "margin-left:10px" t-field ="o.equipos"/>
+                                            </td>
+                                        </tr>
+                                        <tr style = "border:1pt solid black">
+                                            <th style = "border:1pt solid black">Número de parte:</th>
+                                            <td>
+                                                <span style = "margin-left:10px" t-field ="o.parte"/>
+                                            </td>
+                                        </tr>
+                                        <t t-foreach="o.modulos" t-as="linea">
+                                            <tr style = "border:1pt solid black">
+                                                <th style = "border:1pt solid black">
+                                                    <span t-esc ="linea.name + ' S/N:'"/>
+                                                </th>
+                                                <td style = "border:1pt solid black">
+                                                    <span style = "margin-left:10px" t-field ="linea.serie"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </table>
+                                </div>
+                                <!--Accesorios-->
+                                <div class = "text-center">
+                                    <h3 style = "color:#153058;font-weight: 700;font-size:15px">Accesorios</h3>
+                                    <hr size="2px" color="black" />                               
+                                </div>
+                                <div>
+                                    <table class = "table table-sm" style = "border:none !important">                                    
+                                        <tbody>
+                                            <tr>
+                                                <td class = "text-center" style = "border:none !important">
+                                                    <t t-if ="o.ok_cinta">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            <img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/>
+                                                        </div>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            
+                                                        </div>
+                                                    </t>
+                                                </td>
+                                                <th style = "border:none !important; margin-left:15px">
+                                                    <span style="margin-left:15px">Cinta</span>
+                                                </th>
+                                                <th style = "border:none !important">
+                                                    <span style="margin-left:15px">Tipo</span>
+                                                </th>
+                                                <td style = "border:none !important;width:120px">
+                                                    <span style="margin-left:15px" t-field="o.tipo_cinta"/>
+                                                </td>
+                                            </tr> 
+                                            <tr>
+                                                <!--Check-->
+                                                <td class = "text-center" style = "border:none !important">
+                                                    <t t-if ="o.ok_tarjetas_pv">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            <img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/>
+                                                        </div>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            
+                                                        </div>
+                                                    </t>
+                                                </td>
+                                                <th style = "border:none !important; margin-left:15px">
+                                                    <span style="margin-left:15px">Tarjetas</span>
+                                                </th>
+                                                <th style = "border:none !important">
+                                                    <span style="margin-left:15px">Cantidad</span>
+                                                </th>
+                                                <td style = "border:none !important">
+                                                    <span style="margin-left:15px" t-field="o.cant_tarjetas_pvc"/>
+                                                </td>
+                                                 <th style = "border:none !important;width:135px">
+                                                    <span style="margin-left:15px">Tipo de tarjeta</span>
+                                                </th>
+                                                 <td style = "border:none !important">
+                                                    <span style="margin-left:15px" t-field="o.tipo_tarjeta"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class = "text-center" style = "border:none !important">
+                                                    <t t-if ="o.ok_porta_laminador">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            <img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/>
+                                                        </div>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            
+                                                        </div>
+                                                    </t>
+                                                </td>
+                                                <th style = "border:none !important; margin-left:15px">
+                                                    <span style="margin-left:15px">Porta laminador</span>
+                                                </th>
+                                                <th style = "border:none !important">
+                                                    <span style="margin-left:15px">Cantidad</span>
+                                                </th>
+                                                <td style = "border:none !important">
+                                                    <span style="margin-left:15px" t-field="o.cant_porta_laminador"/>
+                                                </td>
+                                                <td style = "border:none !important">
+                                                    <t t-if="o.color_porta_cinta">
+                                                        <span style="margin-left:15px;font-weight:700">Color </span><span style="margin-left:15px" t-field="o.color_porta_cinta"/>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <!--Check-->
+                                                <td class = "text-center" style = "border:none !important">
+                                                    <t t-if ="o.ok_transformador">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            <img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/>
+                                                        </div>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            
+                                                        </div>
+                                                    </t>
+                                                </td>
+                                                <!--Label-->
+                                                <th style = "border:none !important; margin-left:15px">
+                                                    <span style="margin-left:15px">Transformador</span>
+                                                </th>
+                                                <!--Contidad-->
+                                                <th style = "border:none !important;">
+                                                    <span style="margin-left:15px">Cantidad</span>
+                                                </th>
+                                                <td style = "border:none !important">
+                                                    <span style="margin-left:15px" t-field="o.cant_transformador"/>
+                                                </td>
+                                                <!--Check-->
+                                                <td class = "text-center" style = "border:none !important;padding-left:40px">
+                                                    <t t-if ="o.ok_cables_poder">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            <img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/>
+                                                        </div>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            
+                                                        </div>
+                                                    </t>
+                                                </td>
+                                                <!--Labek-->
+                                                <th style = "border:none !important; margin-left:15px">
+                                                    <span style="margin-left:15px">Cables de poder</span>
+                                                </th>
+                                                <!--Cantidad-->
+                                                <th style = "border:none !important">
+                                                    <span style="margin-left:15px">Cantidad</span>                                               
+                                                </th>
+                                                <td style = "border:none !important">
+                                                    <span style="margin-left:15px" t-field="o.cant_cables_poder"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class = "text-center" style = "border:none !important">
+                                                    <t t-if ="o.ok_porta_cinta">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            <img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/>
+                                                        </div>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            
+                                                        </div>
+                                                    </t>
+                                                </td>
+                                                <th style = "border:none !important; margin-left:15px">
+                                                    <span style="margin-left:15px">Porta Cinta</span>
+                                                </th>
+                                                <th style = "border:none !important">
+                                                    <span style="margin-left:15px">Cantidad</span>
+                                                </th>
+                                                <td style = "border:none !important">
+                                                    <span style="margin-left:15px" t-field="o.cant_porta_cinta"/>
+                                                </td>
+                                                <td class = "text-center" style = "border:none !important;padding-left:40px">
+                                                    <t t-if ="o.ok_cinta_laminador">
+                                                    <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            <img style = "width:20px" t-att-src="'/servicios_tecnologicos/static/src/img/check-02.png'"/>
+                                                        </div>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <div style="width:25px;height:25px;border:1pt solid black; border-radius:5px">
+                                                            
+                                                        </div>
+                                                    </t>
+                                                </td>
+                                                <th style = "border:none !important; margin-left:15px">
+                                                    <span style="margin-left:15px">Cinta laminador</span>
+                                                </th>
+                                                <th style = "border:none !important">
+                                                    <span style="margin-left:15px">Cantidad</span>
+                                                </th>
+                                                <td style = "border:none !important">
+                                                    <span style="margin-left:15px" t-field="o.cant_cinta_laminador"/>
+                                                </td>
+                                            </tr> 
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <hr size="2px" color="black" />
+                                <div class = "row">
+                                    <div class = "text-center col-6">
+                                        <h3 style = "color:#153058;font-weight: 700;font-size:15px">Observaciones</h3>                                        
+                                        <span style="text-left" t-field="o.descripcion"/>
+                                    </div>
+                                    <t t-if ="o.prestamo_img">
+                                        <div class = "text-center col-6">
+                                            <h3 style = "color:#153058;font-weight: 700;font-size:15px">Imagen del equipo prestado</h3>                                            
+                                            <img style="max-width:370px;max-height: 210px;" t-attf-src="data:image/*;base64,{{o.prestamo_img}}"/>
+                                        </div>
+                                    </t>
+                               </div>
+                               <div style = "margin-top:20px; font-size:10px">
+                                <p><strong>Políticas de préstamo de equipo:</strong>El Usuario deberá responder por cualquier daño o pérdida parcial o total, será su responsabilidad devolver los equipos
+o impresoras prestadas en buenas condiciones dentro del horario establecido de servicio y fecha señalada. Para entregar
+cualquier equipo o impresora fuera de nuestras instalaciones, el Técnico y/o Asesor(a) deberá solicitar fotocopia de Cédula
+de Identidad y número de teléfono de la persona que recibe y estará a cargo de los equipos durante el tiempo que estén en
+préstamo. En caso, de que los equipos se utilicen para DEMO in situ o para Préstamo a nuestros clientes, se solicita al Asesor
+a cargo, enviar un correo con 2 días de anticipación, con información del Cliente, el día y hora que necesitan el equipo.</p>
+                               </div>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

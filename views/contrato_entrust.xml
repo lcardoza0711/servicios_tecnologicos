@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_equipo_entrust_contrato_tree" model="ir.ui.view">
+        <field name="name">equipo.entrust.contrato.tree</field>
+        <field name="model">equipo.entrust.contrato</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree>
+                <header>
+                    <button name="gestionar_renovacion" string="Gestionar renovacion" type="object" class="btn btn-secondary"/>
+                </header>
+                <field name="estado_cont" string="Estado de mantenimiento"/>
+                <field name="tipo_servicio" string="Tipo de servicios"/>
+                <field name="fecha_primera"/>
+                <field name="fecha_segunda"/>
+                <field name="estado" string="Status del contrato" />
+                <field name="nivel_contrato" string="Tipo de plan"/>
+                <field name="name" string="Contrato"/>
+                <field name="fecha_vencimiento"/>
+                <field name="primera_visita"/>
+                <field name="segunda_visita"/>
+                <field name="cliente"/>
+                <field name="tecnico" string="Responsable comercial"/>
+                <field name="responsable"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_equipo_entrust_contrato_form" model="ir.ui.view">
+        <field name="name">equipo.entrust.contrato.form</field>
+        <field name="model">equipo.entrust.contrato</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="crear_helpdesk_ticket" string="Crear ticket" type="object" class="btn btn-primary"/>
+                    <button name="gestionar_renovacion" string="Gestionar renovacion" type="object" class="btn btn-secondary"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="ver_helpdesk_ticket" type="object" icon="fa-ticket ">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="cuenta_helpdesk_ticket" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text">
+                                    Tickets de servicio
+                                </span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" name="ver_bitacora_servicio" type="object" icon="fa-bars">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="cuenta_bitacora_servicio" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text">
+                                    Bitacoras de servicio
+                                </span>
+                            </div>
+                        </button>
+
+                        <!--                 <button class="oe_stat_button" type="object" name="get_vehicles"-->
+                        <!--                        icon="fa-car">-->
+                        <!--                        <field string="Vehicle" name="vehicle_count" widget="statinfo"/>-->
+                        <!--                    </button>-->
+
+
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="cliente" domain=" [('parent_id', 'not ilike', False)]" />
+                            <field name="codigo_cliente"  invisible="1"/>
+                            <field name="codigo_cliente_sap" />
+                            <field name="nivel_contrato" string="Tipo de plan"/>
+                            <field name="persona_contacto" domain="[('parent_id', '=', cliente)]"/>
+                            <field name="persona_contacto_telf"
+                                   attrs="{'invisible': [('persona_contacto', '=', False)]}"/>
+                            <field name="tipo_servicio"/>
+                            <field name="fecha_inicio"/>
+                            <field name="fecha_vencimiento"/>
+                            <field name="estado"/>
+                            <field name="nivel_contrato" invisible="1"/>
+                            <field name="Descriptio"/>
+                            <field name="tecnico"  string="Responsable comercial"/>
+                        </group>
+                        <group>
+                            <field name="tipo_contrato"/>
+                            <field name="primera_visita"/>
+                            <field name="segunda_visita"/>
+                            <field name="tercera_visita" attrs="{'invisible':[('nivel_contrato','=', '1')]}"/>
+                            <field name="cuarta_visita" attrs="{'invisible':[('nivel_contrato','=', '1')]}"/>
+                            <field name="quinta_visita" attrs="{'invisible':[('nivel_contrato','=', '1')]}"/>
+                            <field name="sexta_visita" attrs="{'invisible':[('nivel_contrato','=', '1')]}"/>
+                            <field name="fecha_primera"/>
+                            <field name="fecha_segunda"/>
+                            <field name="responsable"/>
+                            <!--                            <field name="equipos" widget="many2many_tags"/>-->
+                            <!--                            <field name="modelo_equipo" widget="many2many_tags"/>-->
+                            <field name="estado_cont"/>
+                        </group>
+                    </group>
+
+
+                    <notebook colspan="4">
+                        <page name="descripcion" string="Observaciones">
+
+                            <field name="descripcion" nolabel="1" placeholder="Escribir notas" modifiers="{}"/>
+
+                        </page>
+                        <page name="equipos" string="Modelo">
+
+
+                            <field name="equipos" widget="many2many">
+                                <tree default_order='name' editable="bottom">
+                                    <field name="name"/>
+                                    <field name="modelo"/>
+                                    <field name="InsID" string="Numero de Tarjeta de Equipo"/>
+                                    <field name="primera_visita"/>
+                                    <field name="segunda_visita"/>
+                                    <field name="tercera_visita" />
+                                    <field name="cuarta_visita" />
+                                    <field name="quinta_visita" />
+                                    <field name="sexta_visita" />
+                                </tree>
+                            </field>
+
+<!--                            <field name="equipos" mode="kanban">-->
+<!--                                -->
+<!--&lt;!&ndash;                                <kanban>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <field name="name"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <field name="modelo"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <field name="marca"/>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                                    <templates>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <t t-name="kanban-box">&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <div class="oe_kanban_details">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <field name="name"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <field name="modelo"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <field name="responsable_cliente"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <field name="marca"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <field name="tecnico"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        </t>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </templates>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </kanban>&ndash;&gt;-->
+<!--                            </field>-->
+
+                        </page>
+                        <page name="mantenimientos_id" string="Mantenimientos">
+
+
+                            <field name="mantenimientos_id" widget="many2many">
+                                <tree default_order='create_date'>
+                                    <field name="name"/>
+                                    <field name="fecha_mantenimiento"/>
+                                    <field name="fecha_entrega"/>
+                                </tree>
+                            </field>
+
+                        </page>
+                    </notebook>
+                     <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+
+                </sheet>
+            </form>
+        </field>
+
+    </record>
+
+    <record id="view_equipo_entrust_contrato_search" model="ir.ui.view">
+        <field name="name">equipo.entrust.contrato.search</field>
+        <field name="model">equipo.entrust.contrato</field>
+        <field name="arch" type="xml">
+            <search string="Contratos de Equipos">
+                <field name="cliente" filter_domain="[('cliente', 'ilike', self)]"/>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="view_equipo_entrust_contrato_kanban" model="ir.ui.view">
+        <field name="name">view.equipo.entrust.contrato.kanban</field>
+        <field name="model">equipo.entrust.contrato</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors"
+                    default_group_by="estado">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_content oe_kanban_global_click">
+
+                            <div class="o_project_kanban_main ">
+                                <div class="o_kanban_card_content mw-100">
+                                    <div class="o_kanban_primary_left">
+                                        <div class="o_primary">
+                                            <field name="name"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <span>
+                                                <b>Cliente :</b>
+                                            </span>
+                                            <field name="cliente"/>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+</odoo>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_plantilla_servicios_tree" model="ir.ui.view">
+        <field name="name">bitacora.servicio.plantilla.tree</field>
+        <field name="model">bitacora.servicio.plantilla</field>
+
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_bitacora_servicio_4_form" model="ir.ui.view">
+        <field name="name">bitacora.servicio.plantilla.form</field>
+        <field name="model">bitacora.servicio.plantilla</field>
+
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+
+                </header>
+                <sheet>
+                    <group name="Cabecera" string="Plantilla de bitacora">
+                        <field name="name"/>
+                    <field name="equipos_incluidos" widget="many2many_tags"/>
+
+                    </group>
+                    
+                    <field name="lineas" context="{'default_plantilla_id':id}"/>
+                </sheet>
+            </form>
+        </field>
+
+
+    </record>
+
+
+    <record id="view_bitacora_servicio_plantilla_linea_tree" model="ir.ui.view">
+        <field name="name">bitacora.servicio.plantilla.linea.tree</field>
+        <field name="model">bitacora.servicio.plantilla.linea</field>
+
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="pregunta"/>
+
+                <field name="seccion"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_bitacora_servicio_plantilla_linea_form" model="ir.ui.view">
+        <field name="name">bitacora.servicio.plantilla.linea.form</field>
+        <field name="model">bitacora.servicio.plantilla.linea</field>
+
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+
+                </header>
+                <sheet>
+                    <group>
+                        <field name="pregunta"/>
+                        
+                        <field name="seccion"/>
+                    </group>
+                </sheet>
+
+
+
+
+
+            </form>
+        </field>
+    </record>
+
+
+</odoo>

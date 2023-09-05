@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Email Template -->
+        <record id="correo_encargado_seguimiento_tickets" model="mail.template">
+            <field name="name">Correo de recordatorio de tickets para líderes</field>
+            <field name="model_id" ref="model_helpdesk_ticket"/>
+            <field name="subject">Recordatorio diario</field>
+            <field name="email_from">odoo@akdigitales.com</field>
+            <field name="body_html">
+                <![CDATA[
+                
+                <p>Hola, estimado/a <span t-esc="ctx['encargado']"/></p>
+                <p>Estos tickets no han sido actualizados en los últimos tres días hábiles </p>
+ 
+                <ul>
+                    <t t-foreach="ctx['tickets']" t-as="cliente">
+                        <t t-foreach="ctx['tickets'][cliente]" t-as="etapa">
+                            <h3 t-esc = "etapa.name"/>
+                            <t t-foreach="ctx['tickets'][cliente][etapa]" t-as="ticket">
+                                <li>
+                                    <p> <span t-esc = "cliente.name"/> - <span t-esc = "etapa.name"/> - <span t-esc="ticket[0].name"/> - <a t-attf-href="https://odoo.akdigitales.com/web#id={{ticket[0].id}}&cids=1&menu_id=500&action=752&model=helpdesk.ticket&view_type=form"> Enlace</a> - <span> Responsable: </span> <span t-esc="ticket[0].user_id.name"/> - <span t-esc="ticket[1]" /> <span> días sin actividad </span> </p> 
+                                </li>
+                            </t>
+                        </t>
+                    </t>
+                </ul> 
+                ]]>
+            </field>
+        </record>
+    </data>
+</odoo>

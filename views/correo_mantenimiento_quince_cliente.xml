@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Email Template -->
+        <record id="correo_mantenimiento_quince_cliente" model="mail.template">
+            <field name="name">Correo de recordatorio de tickets para clientes</field>
+            <field name="model_id" ref="model_equipo_entrust_contrato"/>
+            <field name="subject">¡El mantenimiento se acerca!</field>
+            <field name="email_from">odoo@akdigitales.com</field>
+            <field name="body_html">
+                <![CDATA[
+                
+                <p> Estimado(a) <span t-esc="ctx['cliente'].name"/></p>
+                <p> Es un placer saludarle. Queremos informarle que ha llegado el momento programado para el mantenimiento de su equipo
+                    relacionado 
+                    <t t-if = "len(ctx['contratos']) > 1">
+                        a los contratos 
+                    </t>
+                    <t t-else="">
+                        al contrato 
+                    </t>
+                    <t t-foreach="ctx['contratos']" t-as="contrato">
+                        #<span t-esc="contrato[1].name"/>.  
+                    </t>
+                    Este servicio es esencial para asegurar un rendimiento óptimo y prolongar la vida útil de su inversión. </p>
+                <p> Nuestro equipo técnico se encuentra listo para llevar a cabo el mantenimiento necesario. 
+                    Pronto, uno de nuestros técnicos se comunicará con usted directamente para acordar la fecha y hora más conveniente 
+                    para llevar a cabo el servicio. Su cooperación en esta etapa es fundamental. </p>
+                <p> Valoramos mucho su elección de AK Digital como su proveedor de soluciones. Estamos comprometidos en brindar 
+                    un servicio excepcional y garantizar que su equipo funcione en su mejor estado. </p>
+                <p> Si surgen preguntas antes de que nuestro técnico se comunique con usted, no dude en ponerse en contacto con nuestro 
+                    equipo de soporte al cliente. Su satisfacción es nuestra prioridad. </p>
+                <p> Le agradecemos de antemano por su colaboración. Esperamos con entusiasmo realizar el mantenimiento de su equipo y 
+                    seguir siendo su socio confiable en este aspecto. </p>
+                <p> Saludos cordiales. </p>
+                ]]>
+            </field>
+        </record>
+    </data>
+</odoo>

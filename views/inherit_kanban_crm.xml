@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="filtering_chidls_contact" model="ir.ui.view">
+        <field name="name">Filtering childs from contacts</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.quick_create_opportunity_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+
+                    <attribute name="domain">
+                [('parent_id', 'not ilike', False)]
+                    </attribute>
+               </xpath>
+        </field>
+    </record>
+
+    <!--<record id="filtering_chidls_contact" model="ir.ui.view">
+        <field name="name">filtering childs from contacts</field>
+        <field name="model">crm.stages</field>
+        <field name="inherit_id" ref="crm.quick_create_opportunity_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+
+                    <attribute name="domain">
+                [('parent_id', 'not ilike', false)]
+                    </attribute>
+               </xpath>
+        </field>
+    </record>-->
+</odoo>
